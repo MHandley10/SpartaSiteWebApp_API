@@ -4,6 +4,7 @@ namespace SpartaSiteWebApp_API.Models.Domain;
 
 public class NewsItem
 {
+	[Key]
 	public Guid Id { get; set; }
 	public string Content { get; set; }
 	public string Author { get; set; }
