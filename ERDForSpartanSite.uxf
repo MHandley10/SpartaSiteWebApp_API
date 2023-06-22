@@ -247,11 +247,14 @@ Video resources
 --
 _Attributes_
 - VideoID: IDDomain &lt;&lt;Primary Key&gt;&gt;
-- VideoURL: URLDomain
+- FileName: FileDomain
+- FileExtension: FileDomain
+- FileSizeInBytes: FileDomain
+- FilePath: FileDomain
 - CourseType: CourseDomain &lt;&lt;Foreign Key&gt;&gt;
 - VideoTitle: NameDomain
-- VideoSize: FileSizeDomain
-- VideoComments: CommentsDomain
+- VideoSize: FileDomain
+- FileDescription: FileDomain
 - VideoCaptions: CaptionsDomain
 - VideoAuthor: AuthorDomain
 - DateUploaded: DateDomain
