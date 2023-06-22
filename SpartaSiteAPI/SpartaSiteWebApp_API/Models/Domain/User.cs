@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SpartaSiteWebApp_API.Models.Domain;
 
@@ -19,8 +19,16 @@ public class User
 	public string? Title { get; set; }
 	public string ContactNumber { get; set; }
 	public string Email { get; set; }
-	public Guid SpartanId { get; set; }
-	public Spartan Spartan { get; set; }
+	public string Role { get; set; } = "User";
+	public string About { get; set; }
+	public string Education { get; set; }
+	public string Experience { get; set; }
+	public string Skills { get; set; }
+	[ForeignKey("Spartan")]
+	public Guid? SpartanId { get; set; }
+	public Spartan? Spartan { get; set; }
+	public Guid CVId { get; set; }
+	public CV CV { get; set; }
 
 	public ICollection<CareerItem> { get; set;}
 }
