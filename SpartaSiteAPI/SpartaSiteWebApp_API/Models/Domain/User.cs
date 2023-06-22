@@ -27,8 +27,9 @@ public class User
 	[ForeignKey("Spartan")]
 	public Guid? SpartanId { get; set; }
 	public Spartan? Spartan { get; set; }
+	[ForeignKey("CV")]
 	public Guid CVId { get; set; }
 	public CV CV { get; set; }
 
-	public ICollection<CareerItem> { get; set;}
+	public ICollection<CareerItem> CareerItemsApplied { get; set;}
 }

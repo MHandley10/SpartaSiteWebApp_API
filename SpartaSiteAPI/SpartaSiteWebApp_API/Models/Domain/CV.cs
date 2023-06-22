@@ -13,6 +13,7 @@ public class CV
 	public string FileExtension { get; set; }
 	public string FilePath { get; set; }
 	public long FileSizeInBytes { get; set; }
+	[ForeignKey("User")]
 	public Guid UserId { get; set; }
 	public User User { get; set; }
 }

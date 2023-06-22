@@ -14,7 +14,8 @@ public class Spartan
 	public User User { get; set; }
 	[ForeignKey("Course")]
 	public Guid CourseId { get; set; }
-	public ICollection<Course> { get; set; }
+	public ICollection<Course> Courses{ get; set; }
+	[ForeignKey("CareerItem")]
 	public Guid? CareerItemId { get; set; }
-	public ICollection<CareerItem>? {get; set;}
+	public ICollection<CareerItem>? CareerItemsAuthored {get; set;}
 }

@@ -28,7 +28,7 @@ fontsize=10
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>513</x>
+      <x>378</x>
       <y>360</y>
       <w>315</w>
       <h>387</h>
@@ -69,7 +69,7 @@ AppliedFor: nullable</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>612</x>
+      <x>477</x>
       <y>72</y>
       <w>189</w>
       <h>171</h>
@@ -91,8 +91,8 @@ _Constraints_</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1584</x>
-      <y>378</y>
+      <x>1449</x>
+      <y>351</y>
       <w>369</w>
       <h>270</h>
     </coordinates>
@@ -108,20 +108,18 @@ _Attributes_
 - StreamNeeded: CourseDomain
 - CourseTypeNeeded: CourseDomain
 - CompanyContactNumber: ContactDomain
-- SpartansRecommended: SpartanDomain
 - CompanyEmail: ContactDomain
 
 --
 _Constraints_
 - CompanyRepresentativeName: nullable
-- StreamNeeded: nullable
-- SpartansRecommended: nullable</panel_attributes>
+- StreamNeeded: nullable</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1530</x>
+      <x>1395</x>
       <y>774</y>
       <w>189</w>
       <h>243</h>
@@ -147,7 +145,7 @@ _Constraints_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1143</x>
+      <x>1008</x>
       <y>369</y>
       <w>252</w>
       <h>207</h>
@@ -170,7 +168,7 @@ _Constraints_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>819</x>
+      <x>684</x>
       <y>450</y>
       <w>342</w>
       <h>36</h>
@@ -182,23 +180,9 @@ IsSpartan &gt;</panel_attributes>
     <additional_attributes>10.0;20.0;360.0;20.0</additional_attributes>
   </element>
   <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1386</x>
-      <y>450</y>
-      <w>216</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=0..n
-m2=0..1
-RecommendedTo &gt;</panel_attributes>
-    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1143</x>
+      <x>1008</x>
       <y>729</y>
       <w>243</w>
       <h>216</h>
@@ -225,7 +209,7 @@ AssistantTrainers: nullable</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1323</x>
+      <x>1188</x>
       <y>567</y>
       <w>81</w>
       <h>180</h>
@@ -239,7 +223,7 @@ teaches to &gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1179</x>
+      <x>1044</x>
       <y>567</y>
       <w>81</w>
       <h>180</h>
@@ -253,7 +237,7 @@ teaches to &gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>792</x>
+      <x>657</x>
       <y>774</y>
       <w>189</w>
       <h>243</h>
@@ -282,7 +266,7 @@ _Constraints_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>972</x>
+      <x>837</x>
       <y>846</y>
       <w>189</w>
       <h>36</h>
@@ -296,7 +280,7 @@ teaches to &gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1377</x>
+      <x>1242</x>
       <y>846</y>
       <w>171</w>
       <h>36</h>
@@ -310,7 +294,7 @@ teaches to &gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1260</x>
+      <x>1125</x>
       <y>207</y>
       <w>45</w>
       <h>180</h>
@@ -329,7 +313,7 @@ m2=0..1
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1143</x>
+      <x>1008</x>
       <y>0</y>
       <w>252</w>
       <h>216</h>
@@ -356,7 +340,7 @@ _Constraints_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>792</x>
+      <x>657</x>
       <y>207</y>
       <w>369</w>
       <h>171</h>
@@ -370,7 +354,7 @@ Applies to &gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>135</x>
+      <x>0</x>
       <y>459</y>
       <w>189</w>
       <h>171</h>
@@ -379,6 +363,11 @@ Applies to &gt;</panel_attributes>
 CV
 --
 _Attributes_
+- CVID: IDDomain &lt;&lt;Primary Key&gt;&gt;
+- FileName: NameDomain
+- FileExtension: NameDomain
+- FilePath: NameDomain
+- FileSize:  FileSizeDomain
 
 --
 </panel_attributes>
@@ -387,7 +376,7 @@ _Attributes_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>315</x>
+      <x>180</x>
       <y>531</y>
       <w>216</w>
       <h>36</h>
