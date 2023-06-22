@@ -8,7 +8,6 @@ public class Spartan
 	[Key]
 	public Guid Id { get; set; }
 	public string PositionName { get; set; }
-	public string Role { get; set; }
 	public decimal Salary { get; set; }
 	[ForeignKey("User")]
 	public Guid UserId { get; set; }
@@ -16,5 +15,6 @@ public class Spartan
 	[ForeignKey("Course")]
 	public Guid CourseId { get; set; }
 	public ICollection<Course> { get; set; }
-
+	public Guid? CareerItemId { get; set; }
+	public ICollection<CareerItem>? {get; set;}
 }
