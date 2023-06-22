@@ -200,7 +200,7 @@ RecommendedTo &gt;</panel_attributes>
       <w>297</w>
       <h>264</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;Stereotype&gt;&gt;
+    <panel_attributes>&lt;&lt;Entity Type&gt;&gt;
 Course
 --
 _Attributes_
