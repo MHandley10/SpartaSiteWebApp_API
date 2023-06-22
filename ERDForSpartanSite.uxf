@@ -133,7 +133,6 @@ _Attributes_
 - Answer: QuestionDomain
 - Comments: QuestionDomain
 - QuestionAuthor: Question Domain
-- CourseType: CourseDomain &lt;&lt;Foreign Key&gt;&gt;
 - QuestionTopic: QuestionDomain
 - DateUploaded: DateDomain
 
@@ -155,7 +154,6 @@ Spartan
 --
 _Attributes_
 - SpartanId: IDDomain &lt;&lt;Primary key&gt;&gt;
-- UserId: IDDomain &lt;&lt;Foreign key&gt;&gt;
 - CourseId: IDDomain &lt;&lt;Foreign key&gt;&gt;
 - PositionName: PositionDomain
 - Salary: SalaryDomain
@@ -197,9 +195,7 @@ _Attributes_
 - CourseType: CourseDomain
 - CourseStartDate: DateDomain
 - CourseEndDate: DateDomain
-- Trainer (SpartanID): SpartanDomain &lt;&lt;Foreign Key&gt;&gt;
 - Spartans (SpartanIDs): SpartanDomain &lt;&lt;Foreign Key&gt;&gt;
-- AssistantTrainers (SpartanIDs): SpartanDomain &lt;&lt;Foreign Key&gt;&gt;
 
 --
 _Constraints_
@@ -251,7 +247,7 @@ _Attributes_
 - FileExtension: FileDomain
 - FileSizeInBytes: FileDomain
 - FilePath: FileDomain
-- CourseType: CourseDomain &lt;&lt;Foreign Key&gt;&gt;
+- VideoTopic: NameDomain
 - VideoTitle: NameDomain
 - VideoSize: FileDomain
 - FileDescription: FileDomain
@@ -279,20 +275,6 @@ m1=0..n
 m2=0..1
 teaches to &gt;</panel_attributes>
     <additional_attributes>10.0;20.0;190.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1242</x>
-      <y>846</y>
-      <w>171</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=0..n
-m2=0..1
-teaches to &gt;</panel_attributes>
-    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>

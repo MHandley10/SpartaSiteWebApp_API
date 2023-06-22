@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using SpartaSiteWebApp_API.Data;
+
 namespace SpartaSiteWebApp_API
 {
 	public class Program
@@ -13,6 +16,8 @@ namespace SpartaSiteWebApp_API
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
+
+			builder.Services.AddDbContext<SpartaSiteDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SpartaSiteConnectionString")));
 
 			var app = builder.Build();
 

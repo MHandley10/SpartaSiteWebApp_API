@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpartaSiteWebApp_API.Models.Domain;
+using System.Diagnostics.Metrics;
 
 namespace SpartaSiteWebApp_API.Data;
 
@@ -19,4 +20,5 @@ public class SpartaSiteDbContext : DbContext
 	public DbSet<Spartan> Spartans { get; set; }
 	public DbSet<User> Users { get; set; }
 	public DbSet<VideoResources> Videos { get; set; }
+
 }

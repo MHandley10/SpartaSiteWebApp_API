@@ -6,7 +6,7 @@ namespace SpartaSiteWebApp_API.Models.Domain;
 public class CareerItem
 {
 	[Key]
-	public Guid Id { get; set; }
+	public Guid CareerItemId { get; set; }
 	public string Title { get; set; }
 	public string Description { get; set; }
 	public decimal Salary { get; set; }
@@ -14,7 +14,7 @@ public class CareerItem
 	public DateTime CloseDate { get; set; }
 	public bool IsFilled { get; set; } = false;
 	public ICollection<User>? Users { get; set; }
-	[ForeignKey("Spartan")]
-	public Guid AuthorSpartanId { get; set; }
+	[ForeignKey("Spartans")]
+	public Guid SpartanId { get; set; }
 	public Spartan Author { get; set; }
 }

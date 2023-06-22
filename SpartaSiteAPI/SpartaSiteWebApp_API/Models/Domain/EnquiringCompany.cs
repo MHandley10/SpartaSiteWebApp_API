@@ -5,7 +5,7 @@ namespace SpartaSiteWebApp_API.Models.Domain;
 public class EnquiringCompany
 {
 	[Key]
-	public Guid Id { get; set; }
+	public Guid EnquiringCompanyId { get; set; }
 	public string CompanyName { get; set; }
 	public string? RepresentativeName { get; set; }
 	public DateTime DateEnquired { get; set; }

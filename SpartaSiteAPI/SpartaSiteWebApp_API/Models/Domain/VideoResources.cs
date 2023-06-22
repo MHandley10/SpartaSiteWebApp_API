@@ -15,6 +15,5 @@ public class VideoResources
 	public string Title { get; set; }
 	public DateTime DateUploaded { get; set; }
 	public string? Author { get; set; }
-	[ForeignKey("Course")]
-	public string CourseType { get; set; }
+	public string VideoTopic { get; set; }
 }
