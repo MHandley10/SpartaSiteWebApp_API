@@ -19,7 +19,7 @@ public class User
 	public string? Title { get; set; }
 	public string ContactNumber { get; set; }
 	public string Email { get; set; }
-	public string Role { get; set; } = "Non-spartan";
+	public string Role { get; set; } = "NonSpartan";
 	public string About { get; set; }
 	public string Education { get; set; }
 	public string Experience { get; set; }
