@@ -28,8 +28,8 @@ public class User
 	public Guid? SpartanId { get; set; }
 	public Spartan? Spartan { get; set; }
 	[ForeignKey("CVs")]
-	public Guid CVId { get; set; }
-	public CV CV { get; set; }
+	public Guid? CVId { get; set; }
+	public CV? CV { get; set; }
 
-	public ICollection<CareerItem> CareerItemsApplied { get; set;}
+	public ICollection<CareerItem>? CareerItemsApplied { get; set;}
 }
