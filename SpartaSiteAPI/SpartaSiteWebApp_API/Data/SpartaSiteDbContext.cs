@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SpartaSiteWebApp_API.Models.Domain;
 using System.Diagnostics.Metrics;
 
 namespace SpartaSiteWebApp_API.Data;
 
-public class SpartaSiteDbContext : DbContext
+public class SpartaSiteDbContext : IdentityDbContext
 {
 	public SpartaSiteDbContext(DbContextOptions<SpartaSiteDbContext> dbContextOptions) : base(dbContextOptions)
 	{

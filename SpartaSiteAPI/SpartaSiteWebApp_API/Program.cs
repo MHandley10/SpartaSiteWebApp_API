@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using SpartaSiteWebApp_API.Data;
+using SpartaSiteWebApp_API.Models.Domain;
 
 namespace SpartaSiteWebApp_API
 {

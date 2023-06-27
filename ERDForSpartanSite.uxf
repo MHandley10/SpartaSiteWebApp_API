@@ -119,8 +119,8 @@ _Constraints_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1395</x>
-      <y>774</y>
+      <x>1521</x>
+      <y>747</y>
       <w>189</w>
       <h>243</h>
     </coordinates>
@@ -233,8 +233,8 @@ teaches to &gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>657</x>
-      <y>774</y>
+      <x>1296</x>
+      <y>747</y>
       <w>189</w>
       <h>243</h>
     </coordinates>
@@ -261,20 +261,6 @@ _Constraints_
 - VideoComments: nullable
 </panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>837</x>
-      <y>846</y>
-      <w>189</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=0..n
-m2=0..1
-teaches to &gt;</panel_attributes>
-    <additional_attributes>10.0;20.0;190.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
