@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SpartaSiteWebApp_API.Controllers
+namespace SpartaSiteWebApp_API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class NewsItemController : ControllerBase
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class NewsItemController : ControllerBase
-	{
-	}
 }

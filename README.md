@@ -2,7 +2,7 @@
 
 ## Intent of Project
 
--  This project will be made up of two part: an API that, allows CRUD operations on all the information I could think of (displayed in JSON), that would be stored and used for an all-in-one sparta site; and an MVC that uses the API to produce an appropriate series of web pages for a traditional user. This isn't endorsed by Sparta Global and is purely an exercise for my learning.
+-  This project will be made up of two part: an API that, allows CRUD operations on all the necessaryinformation(displayed in JSON), that would be stored and used for an all-in-one sparta site; and an MVC that uses the API to produce an appropriate series of web pages for a traditional user. This isn't endorsed by Sparta Global and is purely an exercise for my learning.
 
 ## Contents of Project
 
@@ -16,4 +16,4 @@
 
 ## Author
 
-- Created by Matthew Handley (MHandley10). If you are interested in this project please feel free to contact me on my [LinkedIn](https://www.linkedin.com/in/matthew-handley12)
+- Created by Matthew Handley (MHandley10/Unloosedcascade). If you are interested in this project please feel free to contact me on my [LinkedIn](https://www.linkedin.com/in/matthew-handley12)
