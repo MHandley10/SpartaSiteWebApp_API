@@ -66,7 +66,15 @@ public class SeedData
 			StreamName = "Developer",
 			CourseName = "Tech211",
 			CourseType = "C# Developer",
-			StartDate = new DateTime(2023, 03, 20),
+			StartDate = new DateTime(2023, 03, 20)
+		};
+		var tech212 = new Course
+		{
+			CourseId = Guid.NewGuid(),
+			StreamName = "Developer",
+			CourseName = "Tech211",
+			CourseType = "Java Developer",
+			StartDate = new DateTime(2023, 04, 13)
 		};
 
 		var danyalSpartan = new Spartan
@@ -184,6 +192,73 @@ public class SeedData
 			CV = daveCV
 		};
 
+		var career1 = new CareerItem
+		{
+			CareerItemId = Guid.NewGuid(),
+			Title = "C# Back-end Developer",
+			Description = "A wonderful opportunity!",
+			Salary = (decimal)25_000,
+			PostDate = new DateTime(2023, 05, 15),
+			CloseDate = new DateTime(2023, 07, 15),
+			IsFilled = false,
+			Applicants =
+			{
+				dave,
+				danyal
+			},
+			SpartanId = nooreenSpartan.SpartanId,
+			Author = nooreenSpartan
+		};
+		var career2 = new CareerItem
+		{
+			CareerItemId = Guid.NewGuid(),
+			Title = "Java Back-end Developer",
+			Description = "A wonderful opportunity!",
+			Salary = (decimal)25_000,
+			PostDate = new DateTime(2023, 06, 15),
+			CloseDate = new DateTime(2023, 08, 15),
+			IsFilled = false,
+			Applicants =
+			{
+				dave
+			},
+			SpartanId = nooreenSpartan.SpartanId,
+			Author = nooreenSpartan
+		};
+		var career3 = new CareerItem
+		{
+			CareerItemId = Guid.NewGuid(),
+			Title = "Test Automation Engineer",
+			Description = "A wonderful opportunity!",
+			Salary = (decimal)25_000,
+			PostDate = new DateTime(2023, 06, 28),
+			CloseDate = new DateTime(2023, 09, 01),
+			IsFilled = false,
+			SpartanId = nooreenSpartan.SpartanId,
+			Author = nooreenSpartan
+		};
+
+		context.CVs.AddRange(
+			danyalCV,
+			daveCV,
+			jacobCV,
+			nooreenCV
+			);
+		context.Courses.AddRange(
+			tech211,
+			tech212
+			);
+		context.Spartans.AddRange(
+			danyalSpartan,
+			jacobSpartan,
+			nooreenSpartan
+			);
+		context.Users.AddRange(
+			danyal,
+			jacob,
+			dave,
+			nooreen);
+		
 		context.CareerItems.AddRange();
 	}
 }

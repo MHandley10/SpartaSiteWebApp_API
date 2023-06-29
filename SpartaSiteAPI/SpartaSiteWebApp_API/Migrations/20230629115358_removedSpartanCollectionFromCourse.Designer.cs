@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpartaSiteWebApp_API.Data;
 
@@ -11,9 +12,11 @@ using SpartaSiteWebApp_API.Data;
 namespace SpartaSiteWebApp_API.Migrations
 {
     [DbContext(typeof(SpartaSiteDbContext))]
-    partial class SpartaSiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230629115358_removedSpartanCollectionFromCourse")]
+    partial class removedSpartanCollectionFromCourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,15 +27,15 @@ namespace SpartaSiteWebApp_API.Migrations
 
             modelBuilder.Entity("CareerItemUser", b =>
                 {
-                    b.Property<Guid>("ApplicantsUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("CareerItemsAppliedCareerItemId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ApplicantsUserId", "CareerItemsAppliedCareerItemId");
+                    b.Property<Guid>("UsersUserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("CareerItemsAppliedCareerItemId");
+                    b.HasKey("CareerItemsAppliedCareerItemId", "UsersUserId");
+
+                    b.HasIndex("UsersUserId");
 
                     b.ToTable("CareerItemUser");
                 });
@@ -578,15 +581,15 @@ namespace SpartaSiteWebApp_API.Migrations
 
             modelBuilder.Entity("CareerItemUser", b =>
                 {
-                    b.HasOne("SpartaSiteWebApp_API.Models.Domain.User", null)
-                        .WithMany()
-                        .HasForeignKey("ApplicantsUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SpartaSiteWebApp_API.Models.Domain.CareerItem", null)
                         .WithMany()
                         .HasForeignKey("CareerItemsAppliedCareerItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SpartaSiteWebApp_API.Models.Domain.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -656,7 +659,7 @@ namespace SpartaSiteWebApp_API.Migrations
             modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Spartan", b =>
                 {
                     b.HasOne("SpartaSiteWebApp_API.Models.Domain.Course", "Course")
-                        .WithMany("Spartans")
+                        .WithMany()
                         .HasForeignKey("CourseId");
 
                     b.Navigation("Course");
@@ -675,11 +678,6 @@ namespace SpartaSiteWebApp_API.Migrations
                     b.Navigation("CV");
 
                     b.Navigation("Spartan");
-                });
-
-            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Course", b =>
-                {
-                    b.Navigation("Spartans");
                 });
 
             modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Spartan", b =>
