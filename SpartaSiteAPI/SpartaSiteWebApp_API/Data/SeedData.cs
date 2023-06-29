@@ -259,6 +259,10 @@ public class SeedData
 			dave,
 			nooreen);
 		
-		context.CareerItems.AddRange();
+		context.CareerItems.AddRange(
+			career1,
+			career2,
+			career3
+			);
 	}
 }
