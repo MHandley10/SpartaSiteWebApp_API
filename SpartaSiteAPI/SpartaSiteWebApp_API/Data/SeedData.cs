@@ -201,11 +201,6 @@ public class SeedData
 			PostDate = new DateTime(2023, 05, 15),
 			CloseDate = new DateTime(2023, 07, 15),
 			IsFilled = false,
-			Applicants =
-			{
-				dave,
-				danyal
-			},
 			SpartanId = nooreenSpartan.SpartanId,
 			Author = nooreenSpartan
 		};
@@ -218,10 +213,6 @@ public class SeedData
 			PostDate = new DateTime(2023, 06, 15),
 			CloseDate = new DateTime(2023, 08, 15),
 			IsFilled = false,
-			Applicants =
-			{
-				dave
-			},
 			SpartanId = nooreenSpartan.SpartanId,
 			Author = nooreenSpartan
 		};
@@ -264,5 +255,6 @@ public class SeedData
 			career2,
 			career3
 			);
+		context.SaveChanges();
 	}
 }
