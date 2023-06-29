@@ -60,13 +60,22 @@ public class SeedData
 			FileSizeInBytes = 52_000
 		};
 
+		var tech211 = new Course
+		{
+			CourseId = Guid.NewGuid(),
+			StreamName = "Developer",
+			CourseName = "Tech211",
+			CourseType = "C# Developer",
+			StartDate = new DateTime(2023, 03, 20),
+		};
+
 		var danyalSpartan = new Spartan
 		{
 			SpartanId = Guid.NewGuid(),
 			PositionName = "Spartan",
 			Salary = (decimal)19_000.00,
-/*			CourseId = tech211.CourseId,
-			Course = tech211*/
+			CourseId = tech211.CourseId,
+			Course = tech211
 		};
 
 		var nooreenSpartan = new Spartan
@@ -81,8 +90,8 @@ public class SeedData
 			SpartanId = Guid.NewGuid(),
 			PositionName = "Trainer Spartan",
 			Salary = (decimal)19_000.00,
-/*			CourseId = tech211.CourseId,
-			Course = tech211*/
+			CourseId = tech211.CourseId,
+			Course = tech211
 		};
 
 		var danyal = new User
@@ -103,6 +112,8 @@ public class SeedData
 			Education = "Uni versity, University town",
 			Experience = "Many years as an excellent C# Developer",
 			Skills = "C#, Python, Java",
+			SpartanId = danyalSpartan.SpartanId,
+			Spartan = danyalSpartan,
 			CVId = nooreenCV.CVId,
 			CV = danyalCV
 		};
@@ -124,6 +135,8 @@ public class SeedData
 			Education = "Oxford Brooks, Oxford",
 			Experience = "Very experience mechanical engineer",
 			Skills = "C#, CAD, Solidworks",
+			SpartanId = nooreenSpartan.SpartanId,
+			Spartan = nooreenSpartan,
 			CVId = nooreenCV.CVId,
 			CV = nooreenCV
 		};
@@ -145,6 +158,8 @@ public class SeedData
 			Education = "Essex University, Essex",
 			Experience = "Lots of teaching experience in Maths, ready to take my career to the next level!",
 			Skills = "C#, Python, MATLAB",
+			SpartanId = jacobSpartan.SpartanId,
+			Spartan = jacobSpartan,
 			CVId = jacobCV.CVId,
 			CV = jacobCV
 		};
