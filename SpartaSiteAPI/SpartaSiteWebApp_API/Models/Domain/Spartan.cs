@@ -11,9 +11,7 @@ public class Spartan
 	public string PositionName { get; set; }
 	public decimal Salary { get; set; }
 	[ForeignKey("Courses")]
-	public Guid CourseId { get; set; }
-	public Course Course { get; set; }
-	[ForeignKey("CareerItems")]
-	public Guid? CareerItemId { get; set; }
+	public Guid? CourseId { get; set; }
+	public Course? Course { get; set; }
 	public ICollection<CareerItem>? CareerItemsAuthored {get; set;}
 }

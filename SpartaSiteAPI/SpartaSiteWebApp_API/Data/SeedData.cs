@@ -1,4 +1,5 @@
 ﻿using SpartaSiteWebApp_API.Models.Domain;
+using System.ComponentModel.Design;
 
 namespace SpartaSiteWebApp_API.Data;
 
@@ -23,6 +24,67 @@ public class SeedData
 			context.SaveChanges();
 		}
 
+		var danyalCV = new CV
+		{
+			CVId = Guid.NewGuid(),
+			FileName = "Danyals CV",
+			FileExtension = ".pdf",
+			FilePath = "./CVs",
+			FileSizeInBytes = 50_000
+		};
+
+		var daveCV = new CV
+		{
+			CVId = Guid.NewGuid(),
+			FileName = "Daves CV",
+			FileExtension = ".pdf",
+			FilePath = "./CVs",
+			FileSizeInBytes = 49_000
+		};
+
+		var nooreenCV = new CV
+		{
+			CVId = Guid.NewGuid(),
+			FileName = "Nooreens CV",
+			FileExtension = ".pdf",
+			FilePath = "./CVs",
+			FileSizeInBytes = 51_000
+		};
+
+		var jacobCV = new CV
+		{
+			CVId = Guid.NewGuid(),
+			FileName = "Jacobs CV",
+			FileExtension = ".pdf",
+			FilePath = "./CVs",
+			FileSizeInBytes = 52_000
+		};
+
+		var danyalSpartan = new Spartan
+		{
+			SpartanId = Guid.NewGuid(),
+			PositionName = "Spartan",
+			Salary = (decimal)19_000.00,
+/*			CourseId = tech211.CourseId,
+			Course = tech211*/
+		};
+
+		var nooreenSpartan = new Spartan
+		{
+			SpartanId = Guid.NewGuid(),
+			PositionName = "Talent Team Spartan",
+			Salary = (decimal)19_000.00
+		};
+
+		var jacobSpartan = new Spartan
+		{
+			SpartanId = Guid.NewGuid(),
+			PositionName = "Trainer Spartan",
+			Salary = (decimal)19_000.00,
+/*			CourseId = tech211.CourseId,
+			Course = tech211*/
+		};
+
 		var danyal = new User
 		{
 			UserId = Guid.NewGuid(),
@@ -41,6 +103,8 @@ public class SeedData
 			Education = "Uni versity, University town",
 			Experience = "Many years as an excellent C# Developer",
 			Skills = "C#, Python, Java",
+			CVId = nooreenCV.CVId,
+			CV = danyalCV
 		};
 		var nooreen = new User
 		{
@@ -60,6 +124,8 @@ public class SeedData
 			Education = "Oxford Brooks, Oxford",
 			Experience = "Very experience mechanical engineer",
 			Skills = "C#, CAD, Solidworks",
+			CVId = nooreenCV.CVId,
+			CV = nooreenCV
 		};
 		var jacob = new User
 		{
@@ -79,6 +145,8 @@ public class SeedData
 			Education = "Essex University, Essex",
 			Experience = "Lots of teaching experience in Maths, ready to take my career to the next level!",
 			Skills = "C#, Python, MATLAB",
+			CVId = jacobCV.CVId,
+			CV = jacobCV
 		};
 		var dave = new User
 		{
@@ -97,6 +165,8 @@ public class SeedData
 			Education = "University of life",
 			Experience = "15 years as a self-employed plumber",
 			Skills = "I can fit a mean U-bend",
+			CVId = daveCV.CVId,
+			CV = daveCV
 		};
 
 		context.CareerItems.AddRange();
