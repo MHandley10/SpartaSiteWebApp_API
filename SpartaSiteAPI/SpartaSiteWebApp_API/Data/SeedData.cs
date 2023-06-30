@@ -198,8 +198,8 @@ public class SeedData
 			Title = "C# Back-end Developer",
 			Description = "A wonderful opportunity!",
 			Salary = (decimal)25_000,
-			PostDate = new DateTime(2023, 05, 15),
-			CloseDate = new DateTime(2023, 07, 15),
+			PostDate = new DateTime(2023, 5, 15),
+			CloseDate = new DateTime(2023, 7, 15),
 			IsFilled = false,
 			SpartanId = nooreenSpartan.SpartanId,
 			Author = nooreenSpartan
@@ -210,8 +210,8 @@ public class SeedData
 			Title = "Java Back-end Developer",
 			Description = "A wonderful opportunity!",
 			Salary = (decimal)25_000,
-			PostDate = new DateTime(2023, 06, 15),
-			CloseDate = new DateTime(2023, 08, 15),
+			PostDate = new DateTime(2023, 6, 15),
+			CloseDate = new DateTime(2023, 8, 15),
 			IsFilled = false,
 			SpartanId = nooreenSpartan.SpartanId,
 			Author = nooreenSpartan
@@ -222,8 +222,8 @@ public class SeedData
 			Title = "Test Automation Engineer",
 			Description = "A wonderful opportunity!",
 			Salary = (decimal)25_000,
-			PostDate = new DateTime(2023, 06, 28),
-			CloseDate = new DateTime(2023, 09, 01),
+			PostDate = new DateTime(2023, 6, 28),
+			CloseDate = new DateTime(2023, 9, 01),
 			IsFilled = false,
 			SpartanId = nooreenSpartan.SpartanId,
 			Author = nooreenSpartan
@@ -233,7 +233,7 @@ public class SeedData
 			EnquiringCompanyId = Guid.NewGuid(),
 			CompanyName = "JCB",
 			RepresentativeName = "Bob Dole",
-			DateEnquired = new DateTime(2022, 05, 15),
+			DateEnquired = new DateTime(2022, 5, 15),
 			NumberOfSpartansRequired = 15,
 			StreamNeeded = "Developer",
 			CourseTypeNeeded = "C# Developer",
@@ -244,7 +244,7 @@ public class SeedData
 		{
 			EnquiringCompanyId = Guid.NewGuid(),
 			CompanyName = "Costco",
-			DateEnquired = new DateTime(2023, 06, 25),
+			DateEnquired = new DateTime(2023, 6, 25),
 			NumberOfSpartansRequired = 15,
 			StreamNeeded = "Developer",
 			CourseTypeNeeded = "Java Developer",
@@ -255,7 +255,7 @@ public class SeedData
 		{
 			EnquiringCompanyId = Guid.NewGuid(),
 			CompanyName = "Asda",
-			DateEnquired = new DateTime(2022, 05, 15),
+			DateEnquired = new DateTime(2022, 5, 15),
 			NumberOfSpartansRequired = 15,
 			StreamNeeded = "Test Automation Engineer",
 			CourseTypeNeeded = "C# Test Automation Engineer",
@@ -267,8 +267,51 @@ public class SeedData
 			NewsItemId = Guid.NewGuid(),
 			Content = "New roles have been made available in Sparta!",
 			Author = "David Jones",
-			Title = "Consultant",
-			Date = new DateTime(2023, 06, 25)
+			Title = "New Roles!",
+			Date = new DateTime(2023, 6, 25)
+		};
+		var newsItem2 = new NewsItem
+		{
+			NewsItemId = Guid.NewGuid(),
+			Content = "Sitting down is bad for you, get a standing desk and save yourself!",
+			Author = "David Jones",
+			Title = "Sitting down bad!",
+			Date = new DateTime(2023, 6, 1)
+		};
+		var newsItem3 = new NewsItem
+		{
+			NewsItemId = Guid.NewGuid(),
+			Content = "We are pleased to announce our new company mascot!",
+			Author = "Carl Withers",
+			Title = "New Mascot",
+			Date = new DateTime(2023, 6, 10)
+		};
+		var question1 = new QuestionBank
+		{
+			QuestionBankId = Guid.NewGuid(),
+			Question = "What is a statically typed language?",
+			Answer = "A language where you define the data types of variables",
+			Author = "Nooreen",
+			QuestionTopic = "General programming",
+			DateUploaded = DateTime.Now
+		};
+		var question2 = new QuestionBank
+		{
+			QuestionBankId = Guid.NewGuid(),
+			Question = "What is staging?",
+			Answer = "git add, adds changes to be commited",
+			Author = "Nooreen",
+			QuestionTopic = "Git",
+			DateUploaded = new DateTime(2022, 10, 1)
+		};
+		var question3 = new QuestionBank
+		{
+			QuestionBankId = Guid.NewGuid(),
+			Question = "What does the modulus operator do?",
+			Answer = "returns the remainder of a division calculation",
+			Author = "Nooreen",
+			QuestionTopic = "General programming",
+			DateUploaded = DateTime.Now
 		};
 
 		context.CVs.AddRange(
