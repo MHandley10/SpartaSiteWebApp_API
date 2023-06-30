@@ -228,6 +228,48 @@ public class SeedData
 			SpartanId = nooreenSpartan.SpartanId,
 			Author = nooreenSpartan
 		};
+		var company1 = new EnquiringCompany
+		{
+			EnquiringCompanyId = Guid.NewGuid(),
+			CompanyName = "JCB",
+			RepresentativeName = "Bob Dole",
+			DateEnquired = new DateTime(2022, 05, 15),
+			NumberOfSpartansRequired = 15,
+			StreamNeeded = "Developer",
+			CourseTypeNeeded = "C# Developer",
+			ContactNumber = "07000000004",
+			Email = "BDole@JCB.com"
+		};
+		var company2 = new EnquiringCompany
+		{
+			EnquiringCompanyId = Guid.NewGuid(),
+			CompanyName = "Costco",
+			DateEnquired = new DateTime(2023, 06, 25),
+			NumberOfSpartansRequired = 15,
+			StreamNeeded = "Developer",
+			CourseTypeNeeded = "Java Developer",
+			ContactNumber = "07000000005",
+			Email = "HR@Costco.com"
+		};
+		var company3 = new EnquiringCompany
+		{
+			EnquiringCompanyId = Guid.NewGuid(),
+			CompanyName = "Asda",
+			DateEnquired = new DateTime(2022, 05, 15),
+			NumberOfSpartansRequired = 15,
+			StreamNeeded = "Test Automation Engineer",
+			CourseTypeNeeded = "C# Test Automation Engineer",
+			ContactNumber = "07000000006",
+			Email = "HR@Asda.com"
+		};
+		var newsItem1 = new NewsItem
+		{
+			NewsItemId = Guid.NewGuid(),
+			Content = "New roles have been made available in Sparta!",
+			Author = "David Jones",
+			Title = "Consultant",
+			Date = new DateTime(2023, 06, 25)
+		};
 
 		context.CVs.AddRange(
 			danyalCV,
@@ -254,6 +296,18 @@ public class SeedData
 			career1,
 			career2,
 			career3
+			);
+		context.CareerItems.AddRange(
+
+			);
+		context.CareerItems.AddRange(
+
+			);
+		context.CareerItems.AddRange(
+
+			);
+		context.CareerItems.AddRange(
+
 			);
 		context.SaveChanges();
 	}
