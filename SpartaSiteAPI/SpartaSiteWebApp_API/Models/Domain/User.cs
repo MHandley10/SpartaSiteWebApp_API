@@ -30,6 +30,4 @@ public class User
 	[ForeignKey("CVs")]
 	public Guid? CVId { get; set; }
 	public CV? CV { get; set; }
-
-	public ICollection<CareerItem>? CareerItemsApplied { get; set;}
 }
