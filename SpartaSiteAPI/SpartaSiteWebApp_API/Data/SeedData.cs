@@ -314,7 +314,6 @@ public class SeedData
 			DateUploaded = DateTime.Now
 		};
 
-
 		context.CVs.AddRange(
 			danyalCV,
 			daveCV,
