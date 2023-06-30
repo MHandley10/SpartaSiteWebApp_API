@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using SpartaSiteWebApp_API.Data;
+using SpartaSiteWebApp_API.Models.DTO;
 
 namespace SpartaSiteWebApp_API.Controllers;
 
