@@ -32,4 +32,10 @@ public class CareerItemController : ControllerBase
 
 		return Ok(careerItem);
 	}
+
+	[HttpPost]
+	public async Task<IActionResult> Create(CreateCareerItemDTO createCareerItemDTO)
+	{
+
+	}
 }
