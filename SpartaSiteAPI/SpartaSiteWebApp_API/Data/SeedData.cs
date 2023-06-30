@@ -286,28 +286,28 @@ public class SeedData
 			Title = "New Mascot",
 			Date = new DateTime(2023, 6, 10)
 		};
-		var question1 = new QuestionBank
+		var question1 = new Question
 		{
-			QuestionBankId = Guid.NewGuid(),
-			Question = "What is a statically typed language?",
+			QuestionId = Guid.NewGuid(),
+			ActualQuestion = "What is a statically typed language?",
 			Answer = "A language where you define the data types of variables",
 			Author = "Nooreen",
 			QuestionTopic = "General programming",
 			DateUploaded = DateTime.Now
 		};
-		var question2 = new QuestionBank
+		var question2 = new Question
 		{
-			QuestionBankId = Guid.NewGuid(),
-			Question = "What is staging?",
+			QuestionId = Guid.NewGuid(),
+			ActualQuestion = "What is staging?",
 			Answer = "git add, adds changes to be commited",
 			Author = "Nooreen",
 			QuestionTopic = "Git",
 			DateUploaded = new DateTime(2022, 10, 1)
 		};
-		var question3 = new QuestionBank
+		var question3 = new Question
 		{
-			QuestionBankId = Guid.NewGuid(),
-			Question = "What does the modulus operator do?",
+			QuestionId = Guid.NewGuid(),
+			ActualQuestion = "What does the modulus operator do?",
 			Answer = "returns the remainder of a division calculation",
 			Author = "Nooreen",
 			QuestionTopic = "General programming",
@@ -340,16 +340,22 @@ public class SeedData
 			career2,
 			career3
 			);
-		context.CareerItems.AddRange(
-
+		context.EnquiringCompanies.AddRange(
+			company1,
+			company2,
+			company3
 			);
-		context.CareerItems.AddRange(
-
+		context.NewsItems.AddRange(
+			newsItem1,
+			newsItem2,
+			newsItem3
 			);
-		context.CareerItems.AddRange(
-
+		context.Questions.AddRange(
+			question1,
+			question2,
+			question3
 			);
-		context.CareerItems.AddRange(
+		context.Videos.AddRange(
 
 			);
 		context.SaveChanges();
