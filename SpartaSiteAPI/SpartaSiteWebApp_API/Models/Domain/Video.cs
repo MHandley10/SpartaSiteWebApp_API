@@ -4,7 +4,7 @@ namespace SpartaSiteWebApp_API.Models.Domain;
 
 public class Video
 {
-	public Guid Id { get; set; }
+	public Guid VideoId { get; set; }
 	[NotMapped]
 	public IFormFile File { get; set; }
 	public string FileName { get; set; }
