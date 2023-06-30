@@ -2,7 +2,7 @@
 
 namespace SpartaSiteWebApp_API.Models.Domain;
 
-public class VideoResources
+public class Video
 {
 	public Guid Id { get; set; }
 	[NotMapped]

@@ -17,9 +17,9 @@ public class SpartaSiteDbContext : IdentityDbContext
 	public DbSet<CV> CVs { get; set; }
 	public DbSet<EnquiringCompany> EnquiringCompanies { get; set; }
 	public DbSet<NewsItem> NewsItems { get; set; }
-	public DbSet<QuestionBank> Questions { get; set; }
+	public DbSet<Question> Questions { get; set; }
 	public DbSet<Spartan> Spartans { get; set; }
 	public DbSet<User> Users { get; set; }
-	public DbSet<VideoResources> Videos { get; set; }
+	public DbSet<Video> Videos { get; set; }
 
 }
