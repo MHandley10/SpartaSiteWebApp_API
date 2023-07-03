@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
 using SpartaSiteWebApp_API.Models.DTO.EnquiringCopmanyDTOs;
+using SpartaSiteWebApp_API.Models.DTO.SpartanDTOs;
 
 namespace SpartaSiteWebApp_API.Controllers;
 
@@ -23,28 +24,28 @@ public class SpartanController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var enquiringCompanyItems = await _dbContext.Spartans.ToListAsync();
+		var spartans = await _dbContext.Spartans.ToListAsync();
 
-		return Ok(_mapper.Map<List<EnquiringCompanyDTO>>(enquiringCompanyItems));
+		return Ok(_mapper.Map<List<SpartanDTO>>(spartans));
 	}
 
 	[HttpGet]
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var courseItem = await _dbContext.EnquiringCompanies.FirstOrDefaultAsync(x => x.EnquiringCompanyId
+		var spartan = await _dbContext.Spartans.FirstOrDefaultAsync(x => x.SpartanId
 		== id);
 
-		return Ok(_mapper.Map<EnquiringCompanyDTO>(courseItem));
+		return Ok(_mapper.Map<SpartanDTO>(spartan));
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Create(CreateEnquiringCompanyDTO enquiringCompanyDTO)
+	public async Task<IActionResult> Create(CreateSpartanDTO createSpartanDTO)
 	{
 		try
 		{
-			var createItem = _mapper.Map<EnquiringCompany>(enquiringCompanyDTO);
-			_dbContext.EnquiringCompanies.Add(createItem);
+			var createItem = _mapper.Map<Spartan>(createSpartanDTO);
+			_dbContext.Spartans.Add(createItem);
 			await _dbContext.SaveChangesAsync();
 		}
 		catch (Exception)
@@ -52,47 +53,58 @@ public class SpartanController : ControllerBase
 			return BadRequest("An error occurred, please try again later.");
 		}
 
-		return Ok(enquiringCompanyDTO);
+		return Ok(createSpartanDTO);
 	}
 
 	[HttpPut]
 	[Route("{id}")]
-	public async Task<IActionResult> Update(Guid id, UpdateEnquiringCompanyDTO companyDTO)
+	public async Task<IActionResult> Update(Guid id, UpdateSpartanDTO spartanDTO)
 	{
-		var updateItem = await _dbContext.EnquiringCompanies.FirstOrDefaultAsync(x => x.EnquiringCompanyId == id);
+		var updateItem = await _dbContext.Spartans.FirstOrDefaultAsync(x => x.SpartanId == id);
 
 		if (updateItem is null)
 		{
 			return BadRequest("The item you want to update could not be found.");
 		}
 
-		updateItem.CourseTypeNeeded = companyDTO.CourseTypeNeeded ?? updateItem.CourseTypeNeeded;
-		updateItem.CompanyName = companyDTO.CompanyName ?? updateItem.CompanyName;
-		updateItem.ContactNumber = companyDTO.ContactNumber ?? updateItem.ContactNumber;
-		updateItem.Email = companyDTO.Email ?? updateItem.Email;
-		updateItem.NumberOfSpartansRequired = companyDTO.NumberOfSpartansRequired;
-		updateItem.RepresentativeName = companyDTO.RepresentativeName ?? updateItem.RepresentativeName;
-		updateItem.StreamNeeded = companyDTO.StreamNeeded ?? updateItem.StreamNeeded;
+		updateItem.FirstName = spartanDTO.FirstName ?? updateItem.FirstName;
+		updateItem.MiddleName = spartanDTO.MiddleName ?? updateItem.MiddleName;
+		updateItem.LastName = spartanDTO.LastName ?? updateItem.LastName;
+		updateItem.DateOfBirth = spartanDTO.DateOfBirth;
+		updateItem.Address = spartanDTO.Address ?? updateItem.Address;
+		updateItem.PostCode = spartanDTO.PostCode?? updateItem.PostCode;
+		updateItem.CountryOfResidence = spartanDTO.CountryOfResidence ?? updateItem.CountryOfResidence;
+		updateItem.Title = spartanDTO.Title ?? updateItem.Title;
+		updateItem.ContactNumber = spartanDTO.ContactNumber ?? updateItem.ContactNumber;
+		updateItem.Email = spartanDTO.Email ?? updateItem.Email;
+		updateItem.Role = spartanDTO.Role ?? updateItem.Role;
+		updateItem.About = spartanDTO.About ?? updateItem.About;
+		updateItem.Education = spartanDTO.Education ?? updateItem.Education;
+		updateItem.Experience = spartanDTO.Experience ?? updateItem.Experience;
+		updateItem.Skills = spartanDTO.Skills ?? updateItem.Skills;
+		updateItem.PositionName = spartanDTO.PositionName ?? updateItem.PositionName;
+		updateItem.Salary = spartanDTO.Salary;
+
 
 		await _dbContext.SaveChangesAsync();
 
-		return Ok(companyDTO);
+		return Ok(spartanDTO);
 	}
 
 	[HttpDelete]
 	[Route("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
-		var deleteItem = await _dbContext.EnquiringCompanies.FirstOrDefaultAsync(x => x.EnquiringCompanyId == id);
+		var deleteItem = await _dbContext.Spartans.FirstOrDefaultAsync(x => x.SpartanId == id);
 
 		if (deleteItem is null)
 		{
 			return BadRequest("The item you want to delete could not be found.");
 		}
 
-		_dbContext.EnquiringCompanies.Remove(deleteItem);
+		_dbContext.Spartans.Remove(deleteItem);
 		await _dbContext.SaveChangesAsync();
 
-		return Ok(_mapper.Map<EnquiringCompanyDTO>(deleteItem));
+		return Ok(_mapper.Map<SpartanDTO>(deleteItem));
 	}
 }
