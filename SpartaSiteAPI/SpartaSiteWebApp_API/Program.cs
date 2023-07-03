@@ -20,6 +20,8 @@ namespace SpartaSiteWebApp_API
 
 			builder.Services.AddDbContext<SpartaSiteDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SpartaSiteConnectionString")));
 
+			builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 			var app = builder.Build();
 
 			using (var scope = app.Services.CreateScope())
