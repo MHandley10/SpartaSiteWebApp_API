@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
-using SpartaSiteWebApp_API.Models.DTO;
+using SpartaSiteWebApp_API.Models.DTO.CareerItemDTOs;
+using SpartaSiteWebApp_API.Models.DTO.CourseDTOs;
 
 namespace SpartaSiteWebApp_API.Controllers;
 
@@ -22,28 +24,27 @@ public class CourseController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var careerItems = await _dbContext.CareerItems.ToListAsync();
+		var courseItems = _mapper.Map<CourseDTO>(await _dbContext.Courses.ToListAsync());
 
-		return Ok(careerItems);
+		return Ok(courseItems);
 	}
 
 	[HttpGet]
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var careerItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
+		var courseItem = _mapper.Map<CourseDTO>(await _dbContext.Courses.FirstOrDefaultAsync(x => x.CourseId
+		== id));
 
-		return Ok(careerItem);
+		return Ok(courseItem);
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Create(Spartan? spartan, CreateCareerItemDTO createCareerItemDTO)
+	public async Task<IActionResult> Create(CourseDTO courseDTO)
 	{
 		try
 		{
-			var createItem = _mapper.Map<CareerItem>(createCareerItemDTO);
-			createItem.Author = spartan;
-			createItem.SpartanId = spartan.SpartanId;
+			var createItem = _mapper.Map<Course>(courseDTO);
 			_dbContext.Add(createItem);
 			await _dbContext.SaveChangesAsync();
 		}
@@ -52,43 +53,44 @@ public class CourseController : ControllerBase
 			return BadRequest("An error occurred, please try again later.");
 		}
 
-		return Ok(createCareerItemDTO);
+		return Ok(courseDTO);
 	}
 
 	[HttpPost]
 	[Route("{id}")]
-	public async Task<IActionResult> Update(UpdateCareerItemDTO updateCareerItemDTO)
+	public async Task<IActionResult> Update(Guid id, CourseDTO courseDTO)
 	{
-		var updateItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == updateCareerItemDTO.CareerItemId);
+		var updateItem = await _dbContext.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
 
-		if (updateCareerItemDTO is null)
+		if (updateItem is null)
 		{
 			return BadRequest("The item you want to update could not be found.");
 		}
 
-		updateItem.Title = updateCareerItemDTO.Title ?? updateItem.Title;
-		updateItem.Description = updateCareerItemDTO.Description ?? updateItem.Description;
-		updateItem.Salary = updateCareerItemDTO.Salary;
-		updateItem.CloseDate = updateCareerItemDTO.CloseDate;
-		updateItem.IsFilled = updateCareerItemDTO.IsFilled;
+		updateItem.StreamName = courseDTO.StreamName ?? updateItem.StreamName;
+		updateItem.CourseName = courseDTO.CourseName ?? updateItem.CourseName;
+		updateItem.CourseType = courseDTO.CourseType ?? updateItem.CourseType;
+		updateItem.StartDate = courseDTO.StartDate;
+		updateItem.EndDate = courseDTO.EndDate;
+		updateItem.Spartans = courseDTO.Spartans ?? updateItem.Spartans;
 
 		await _dbContext.SaveChangesAsync();
 
-		return Ok(updateCareerItemDTO);
+		return Ok(courseDTO);
 	}
 
 	[HttpPost]
 	[Route("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
-		var deleteItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
+		var deleteItem = await _dbContext.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
 
 		if (deleteItem is null)
 		{
 			return BadRequest("The item you want to delete could not be found.");
 		}
 
-		_dbContext.CareerItems.Remove(deleteItem);
+		_dbContext.Courses.Remove(deleteItem);
 		await _dbContext.SaveChangesAsync();
 
 		return Ok(deleteItem);

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
-using SpartaSiteWebApp_API.Models.DTO;
+using SpartaSiteWebApp_API.Models.DTO.CareerItemDTOs;
 
 namespace SpartaSiteWebApp_API.Controllers;
 

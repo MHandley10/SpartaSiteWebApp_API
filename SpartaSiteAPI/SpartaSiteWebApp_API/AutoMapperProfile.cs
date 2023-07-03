@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using SpartaSiteWebApp_API.Models.Domain;
-using SpartaSiteWebApp_API.Models.DTO;
+using SpartaSiteWebApp_API.Models.DTO.CareerItemDTOs;
 
 namespace SpartaSiteWebApp_API
 {
-	public class AutoMapperProfile : Profile
+    public class AutoMapperProfile : Profile
 	{
 		public AutoMapperProfile()
 		{
