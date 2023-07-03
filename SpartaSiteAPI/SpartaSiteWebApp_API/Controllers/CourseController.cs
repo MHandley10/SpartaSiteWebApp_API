@@ -24,9 +24,9 @@ public class CourseController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var courseItems = _mapper.Map<CourseDTO>(await _dbContext.Courses.ToListAsync());
+		var courseItems = await _dbContext.Courses.ToListAsync();
 
-		return Ok(courseItems);
+		return Ok(_mapper.Map<List<CourseDTO>>(courseItems));
 	}
 
 	[HttpGet]
@@ -56,7 +56,7 @@ public class CourseController : ControllerBase
 		return Ok(courseDTO);
 	}
 
-	[HttpPost]
+	[HttpPut]
 	[Route("{id}")]
 	public async Task<IActionResult> Update(Guid id, CourseDTO courseDTO)
 	{
@@ -79,7 +79,7 @@ public class CourseController : ControllerBase
 		return Ok(courseDTO);
 	}
 
-	[HttpPost]
+	[HttpDelete]
 	[Route("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{

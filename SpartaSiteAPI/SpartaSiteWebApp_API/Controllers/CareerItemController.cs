@@ -24,9 +24,9 @@ public class CareerItemController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var careerItems = _mapper.Map<CareerItemDTO>(await _dbContext.CareerItems.ToListAsync());
+		var careerItems = await _dbContext.CareerItems.ToListAsync();
 
-		return Ok(careerItems);
+		return Ok(_mapper.Map<List<CareerItemDTO>>(careerItems));
 	}
 
 	[HttpGet]
@@ -39,13 +39,11 @@ public class CareerItemController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Create(Spartan? spartan, CreateCareerItemDTO createCareerItemDTO)
+	public async Task<IActionResult> Create(CreateCareerItemDTO createCareerItemDTO)
 	{
 		try
 		{
 			var createItem = _mapper.Map<CareerItem>(createCareerItemDTO);
-			createItem.Author = spartan;
-			createItem.SpartanId = spartan.SpartanId;
 			_dbContext.Add(createItem);
 			await _dbContext.SaveChangesAsync();
 		}
@@ -57,7 +55,7 @@ public class CareerItemController : ControllerBase
 		return Ok(createCareerItemDTO);
 	}
 
-	[HttpPost]
+	[HttpPut]
 	[Route("{id}")]
 	public async Task<IActionResult> Update(UpdateCareerItemDTO updateCareerItemDTO)
 	{
@@ -79,7 +77,7 @@ public class CareerItemController : ControllerBase
 		return Ok(updateCareerItemDTO);
 	}
 
-	[HttpPost]
+	[HttpDelete]
 	[Route("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{

@@ -10,7 +10,5 @@ public class CareerItemDTO
     public DateTime PostDate { get; set; }
     public DateTime CloseDate { get; set; }
     public bool IsFilled { get; set; } = false;
-    [ForeignKey("Spartans")]
-    public Guid SpartanId { get; set; }
     public Spartan Author { get; set; }
 }
