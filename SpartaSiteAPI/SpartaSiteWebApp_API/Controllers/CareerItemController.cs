@@ -13,18 +13,18 @@ namespace SpartaSiteWebApp_API.Controllers;
 [ApiController]
 public class CareerItemController : ControllerBase
 {
-	private readonly SpartaSiteDbContext dbContext;
+	private readonly SpartaSiteDbContext _dbContext;
 	private readonly IMapper _mapper;
 	public CareerItemController(SpartaSiteDbContext dbContext, IMapper mapper)
 	{
-		this.dbContext = dbContext;
+		this._dbContext = dbContext;
 		_mapper = mapper;
 	}
 
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var careerItems = await dbContext.CareerItems.ToListAsync();
+		var careerItems = _mapper.Map<CareerItemDTO>(await _dbContext.CareerItems.ToListAsync());
 
 		return Ok(careerItems);
 	}
@@ -33,7 +33,7 @@ public class CareerItemController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var careerItem = await dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
+		var careerItem = _mapper.Map<CareerItemDTO>(await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id));
 
 		return Ok(careerItem);
 	}
@@ -46,8 +46,8 @@ public class CareerItemController : ControllerBase
 			var createItem = _mapper.Map<CareerItem>(createCareerItemDTO);
 			createItem.Author = spartan;
 			createItem.SpartanId = spartan.SpartanId;
-			dbContext.Add(createItem);
-			await dbContext.SaveChangesAsync();
+			_dbContext.Add(createItem);
+			await _dbContext.SaveChangesAsync();
 		}
 		catch (Exception)
 		{
@@ -61,7 +61,7 @@ public class CareerItemController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Update(UpdateCareerItemDTO updateCareerItemDTO)
 	{
-		var updateItem = await dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == updateCareerItemDTO.CareerItemId);
+		var updateItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == updateCareerItemDTO.CareerItemId);
 
 		if (updateCareerItemDTO is null)
 		{
@@ -74,7 +74,7 @@ public class CareerItemController : ControllerBase
 		updateItem.CloseDate = updateCareerItemDTO.CloseDate;
 		updateItem.IsFilled = updateCareerItemDTO.IsFilled;
 
-		await dbContext.SaveChangesAsync();
+		await _dbContext.SaveChangesAsync();
 
 		return Ok(updateCareerItemDTO);
 	}
@@ -83,15 +83,15 @@ public class CareerItemController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
-		var deleteItem = await dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
+		var deleteItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
 
 		if (deleteItem is null)
 		{
 			return BadRequest("The item you want to delete could not be found.");
 		}
 
-		dbContext.CareerItems.Remove(deleteItem);
-		await dbContext.SaveChangesAsync();
+		_dbContext.CareerItems.Remove(deleteItem);
+		await _dbContext.SaveChangesAsync();
 
 		return Ok(deleteItem);
 	}
