@@ -24,7 +24,7 @@ public class CareerItemController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var careerItems = await _dbContext.CareerItems.ToListAsync();
+		var careerItems = await _dbContext.CareerItems.Include(x => x.Author).ToListAsync();
 
 		return Ok(_mapper.Map<List<CareerItemDTO>>(careerItems));
 	}
