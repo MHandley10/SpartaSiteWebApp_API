@@ -33,9 +33,9 @@ public class CareerItemController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var careerItem = _mapper.Map<CareerItemDTO>(await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id));
+		var careerItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
 
-		return Ok(careerItem);
+		return Ok(_mapper.Map<CareerItemDTO>(careerItem));
 	}
 
 	[HttpPost]
@@ -44,7 +44,7 @@ public class CareerItemController : ControllerBase
 		try
 		{
 			var createItem = _mapper.Map<CareerItem>(createCareerItemDTO);
-			_dbContext.Add(createItem);
+			_dbContext.CareerItems.Add(createItem);
 			await _dbContext.SaveChangesAsync();
 		}
 		catch (Exception)
@@ -57,9 +57,9 @@ public class CareerItemController : ControllerBase
 
 	[HttpPut]
 	[Route("{id}")]
-	public async Task<IActionResult> Update(UpdateCareerItemDTO updateCareerItemDTO)
+	public async Task<IActionResult> Update(Guid id, UpdateCareerItemDTO updateCareerItemDTO)
 	{
-		var updateItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == updateCareerItemDTO.CareerItemId);
+		var updateItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
 
 		if (updateCareerItemDTO is null)
 		{
@@ -91,6 +91,6 @@ public class CareerItemController : ControllerBase
 		_dbContext.CareerItems.Remove(deleteItem);
 		await _dbContext.SaveChangesAsync();
 
-		return Ok(deleteItem);
+		return Ok(_mapper.Map<CareerItemDTO>(deleteItem));
 	}
 }

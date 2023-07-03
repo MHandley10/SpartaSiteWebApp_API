@@ -33,10 +33,10 @@ public class CourseController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var courseItem = _mapper.Map<CourseDTO>(await _dbContext.Courses.FirstOrDefaultAsync(x => x.CourseId
-		== id));
+		var courseItem = await _dbContext.Courses.FirstOrDefaultAsync(x => x.CourseId
+		== id);
 
-		return Ok(courseItem);
+		return Ok(_mapper.Map<CourseDTO>(courseItem));
 	}
 
 	[HttpPost]
@@ -45,7 +45,7 @@ public class CourseController : ControllerBase
 		try
 		{
 			var createItem = _mapper.Map<Course>(courseDTO);
-			_dbContext.Add(createItem);
+			_dbContext.Courses.Add(createItem);
 			await _dbContext.SaveChangesAsync();
 		}
 		catch (Exception)
@@ -93,6 +93,6 @@ public class CourseController : ControllerBase
 		_dbContext.Courses.Remove(deleteItem);
 		await _dbContext.SaveChangesAsync();
 
-		return Ok(deleteItem);
+		return Ok(_mapper.Map<CourseDTO>(deleteItem));
 	}
 }

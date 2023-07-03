@@ -6,8 +6,6 @@ namespace SpartaSiteWebApp_API.Models.DTO.CareerItemDTOs;
 
 public class UpdateCareerItemDTO
 {
-    [Key]
-    public Guid CareerItemId { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     public decimal Salary { get; set; }
