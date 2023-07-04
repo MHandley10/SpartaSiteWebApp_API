@@ -1,4 +1,6 @@
-﻿namespace SpartaSiteWebApp_API.Models.DTO.NewsItemDTOs;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SpartaSiteWebApp_API.Models.DTO.NewsItemDTOs;
 
 public class UpdateNewsItemDTO
 {

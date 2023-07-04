@@ -33,10 +33,10 @@ public class EnquiringCompanyController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var courseItem = await _dbContext.EnquiringCompanies.FirstOrDefaultAsync(x => x.EnquiringCompanyId
+		var enquiringCompanyItem = await _dbContext.EnquiringCompanies.FirstOrDefaultAsync(x => x.EnquiringCompanyId
 		== id);
 
-		return Ok(_mapper.Map<EnquiringCompanyDTO>(courseItem));
+		return Ok(_mapper.Map<EnquiringCompanyDTO>(enquiringCompanyItem));
 	}
 
 	[HttpPost]

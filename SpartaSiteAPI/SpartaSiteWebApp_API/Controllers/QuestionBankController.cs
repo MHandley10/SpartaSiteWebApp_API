@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
 using SpartaSiteWebApp_API.Models.DTO.EnquiringCopmanyDTOs;
+using SpartaSiteWebApp_API.Models.DTO.QuestionDTOs;
 
 namespace SpartaSiteWebApp_API.Controllers;
 
@@ -23,28 +24,28 @@ public class QuestionBankController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var enquiringCompanyItems = await _dbContext.EnquiringCompanies.ToListAsync();
+		var questionItems = await _dbContext.Questions.ToListAsync();
 
-		return Ok(_mapper.Map<List<EnquiringCompanyDTO>>(enquiringCompanyItems));
+		return Ok(_mapper.Map<List<QuestionDTO>>(questionItems));
 	}
 
 	[HttpGet]
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var courseItem = await _dbContext.EnquiringCompanies.FirstOrDefaultAsync(x => x.EnquiringCompanyId
+		var questionItem = await _dbContext.Questions.FirstOrDefaultAsync(x => x.QuestionId
 		== id);
 
-		return Ok(_mapper.Map<EnquiringCompanyDTO>(courseItem));
+		return Ok(_mapper.Map<EnquiringCompanyDTO>(questionItem));
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Create(CreateEnquiringCompanyDTO enquiringCompanyDTO)
+	public async Task<IActionResult> Create(QuestionDTO questionDTO)
 	{
 		try
 		{
-			var createItem = _mapper.Map<EnquiringCompany>(enquiringCompanyDTO);
-			_dbContext.EnquiringCompanies.Add(createItem);
+			var createItem = _mapper.Map<Question>(questionDTO);
+			_dbContext.Questions.Add(createItem);
 			await _dbContext.SaveChangesAsync();
 		}
 		catch (Exception)
@@ -52,47 +53,45 @@ public class QuestionBankController : ControllerBase
 			return BadRequest("An error occurred, please try again later.");
 		}
 
-		return Ok(enquiringCompanyDTO);
+		return Ok(questionDTO);
 	}
 
 	[HttpPut]
 	[Route("{id}")]
-	public async Task<IActionResult> Update(Guid id, UpdateEnquiringCompanyDTO companyDTO)
+	public async Task<IActionResult> Update(Guid id, UpdateQuestionDTO questionDTO)
 	{
-		var updateItem = await _dbContext.EnquiringCompanies.FirstOrDefaultAsync(x => x.EnquiringCompanyId == id);
+		var updateItem = await _dbContext.Questions.FirstOrDefaultAsync(x => x.QuestionId == id);
 
 		if (updateItem is null)
 		{
 			return BadRequest("The item you want to update could not be found.");
 		}
 
-		updateItem.CourseTypeNeeded = companyDTO.CourseTypeNeeded ?? updateItem.CourseTypeNeeded;
-		updateItem.CompanyName = companyDTO.CompanyName ?? updateItem.CompanyName;
-		updateItem.ContactNumber = companyDTO.ContactNumber ?? updateItem.ContactNumber;
-		updateItem.Email = companyDTO.Email ?? updateItem.Email;
-		updateItem.NumberOfSpartansRequired = companyDTO.NumberOfSpartansRequired;
-		updateItem.RepresentativeName = companyDTO.RepresentativeName ?? updateItem.RepresentativeName;
-		updateItem.StreamNeeded = companyDTO.StreamNeeded ?? updateItem.StreamNeeded;
+		updateItem.ActualQuestion = questionDTO.ActualQuestion?? updateItem.ActualQuestion;
+		updateItem.Answer = questionDTO.Answer ?? updateItem.Answer;
+		updateItem.Comments = questionDTO.Comments ?? updateItem.Comments;
+		updateItem.Author = questionDTO.Author ?? updateItem.Author;
+		updateItem.QuestionTopic = questionDTO.QuestionTopic ?? updateItem.QuestionTopic;
 
 		await _dbContext.SaveChangesAsync();
 
-		return Ok(companyDTO);
+		return Ok(questionDTO);
 	}
 
 	[HttpDelete]
 	[Route("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
-		var deleteItem = await _dbContext.EnquiringCompanies.FirstOrDefaultAsync(x => x.EnquiringCompanyId == id);
+		var deleteItem = await _dbContext.Questions.FirstOrDefaultAsync(x => x.QuestionId == id);
 
 		if (deleteItem is null)
 		{
 			return BadRequest("The item you want to delete could not be found.");
 		}
 
-		_dbContext.EnquiringCompanies.Remove(deleteItem);
+		_dbContext.Questions.Remove(deleteItem);
 		await _dbContext.SaveChangesAsync();
 
-		return Ok(_mapper.Map<EnquiringCompanyDTO>(deleteItem));
+		return Ok(_mapper.Map<QuestionDTO>(deleteItem));
 	}
 }

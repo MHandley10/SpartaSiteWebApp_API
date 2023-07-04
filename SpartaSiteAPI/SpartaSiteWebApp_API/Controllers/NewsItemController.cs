@@ -24,9 +24,9 @@ public class NewsItemController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var enquiringCompanyItems = await _dbContext.NewsItems.ToListAsync();
+		var newsItems = await _dbContext.NewsItems.ToListAsync();
 
-		return Ok(_mapper.Map<List<NewsItemDTO>>(enquiringCompanyItems));
+		return Ok(_mapper.Map<List<NewsItemDTO>>(newsItems));
 	}
 
 	[HttpGet]
