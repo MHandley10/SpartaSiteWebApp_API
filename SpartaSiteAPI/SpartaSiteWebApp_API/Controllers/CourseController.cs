@@ -72,7 +72,6 @@ public class CourseController : ControllerBase
 		updateItem.CourseType = courseDTO.CourseType ?? updateItem.CourseType;
 		updateItem.StartDate = courseDTO.StartDate;
 		updateItem.EndDate = courseDTO.EndDate;
-		updateItem.Spartans = courseDTO.Spartans ?? updateItem.Spartans;
 
 		await _dbContext.SaveChangesAsync();
 

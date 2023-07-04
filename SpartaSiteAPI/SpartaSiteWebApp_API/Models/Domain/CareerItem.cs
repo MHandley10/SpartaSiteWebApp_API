@@ -15,6 +15,6 @@ public class CareerItem
 	public bool IsFilled { get; set; } = false;
 	public ICollection<User>? Applicants { get; set; }
 	[ForeignKey("Spartans")]
-	public Guid SpartanId { get; set; }
-	public Spartan Author { get; set; }
+	public Guid? SpartanId { get; set; }
+	public Spartan? Author { get; set; }
 }

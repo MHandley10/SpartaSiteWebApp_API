@@ -10,5 +10,4 @@ public class CourseDTO
 	public string CourseType { get; set; }
 	public DateTime StartDate { get; set; }
 	public DateTime EndDate { get; set; }
-	public ICollection<Spartan> Spartans { get; set; }
 }
