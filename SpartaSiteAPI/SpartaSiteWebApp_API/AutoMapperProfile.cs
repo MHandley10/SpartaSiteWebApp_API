@@ -3,6 +3,7 @@ using SpartaSiteWebApp_API.Models.Domain;
 using SpartaSiteWebApp_API.Models.DTO.CareerItemDTOs;
 using SpartaSiteWebApp_API.Models.DTO.CourseDTOs;
 using SpartaSiteWebApp_API.Models.DTO.EnquiringCopmanyDTOs;
+using SpartaSiteWebApp_API.Models.DTO.NewsItemDTOs;
 using SpartaSiteWebApp_API.Models.DTO.SpartanDTOs;
 using SpartaSiteWebApp_API.Models.DTO.UserDTOs;
 
@@ -25,5 +26,7 @@ namespace SpartaSiteWebApp_API;
 		CreateMap<User, UserDTO>().ReverseMap();
 		CreateMap<User, CreateUserDTO>().ReverseMap();
 		CreateMap<User, UpdateUserDTO>().ReverseMap();
+		CreateMap<NewsItem, NewsItemDTO>().ReverseMap();
+		CreateMap<NewsItem, UpdateNewsItemDTO>().ReverseMap();
 	}
 }
