@@ -300,7 +300,7 @@ public class SeedData
 			Content = "New roles have been made available in Sparta!",
 			Author = "David Jones",
 			Title = "New Roles!",
-			Date = new DateTime(2023, 6, 25)
+			DateUploaded = new DateTime(2023, 6, 25)
 		};
 		var newsItem2 = new NewsItem
 		{
@@ -308,7 +308,7 @@ public class SeedData
 			Content = "Sitting down is bad for you, get a standing desk and save yourself!",
 			Author = "David Jones",
 			Title = "Sitting down bad!",
-			Date = new DateTime(2023, 6, 1)
+			DateUploaded = new DateTime(2023, 6, 1)
 		};
 		var newsItem3 = new NewsItem
 		{
@@ -316,7 +316,7 @@ public class SeedData
 			Content = "We are pleased to announce our new company mascot!",
 			Author = "Carl Withers",
 			Title = "New Mascot",
-			Date = new DateTime(2023, 6, 10)
+			DateUploaded = new DateTime(2023, 6, 10)
 		};
 		var question1 = new Question
 		{

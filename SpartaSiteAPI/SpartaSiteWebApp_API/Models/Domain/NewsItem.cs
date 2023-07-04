@@ -9,5 +9,5 @@ public class NewsItem
 	public string Content { get; set; }
 	public string Author { get; set; }
 	public string Title { get; set; }
-	public DateTime Date { get; set; }
+	public DateTime DateUploaded { get; set; }
 }
