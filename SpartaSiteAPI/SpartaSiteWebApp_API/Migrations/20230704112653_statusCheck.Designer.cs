@@ -12,8 +12,8 @@ using SpartaSiteWebApp_API.Data;
 namespace SpartaSiteWebApp_API.Migrations
 {
     [DbContext(typeof(SpartaSiteDbContext))]
-    [Migration("20230623162249_changedContextSuperClass")]
-    partial class changedContextSuperClass
+    [Migration("20230704112653_statusCheck")]
+    partial class statusCheck
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace SpartaSiteWebApp_API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CareerItemUser", b =>
-                {
-                    b.Property<Guid>("CareerItemsAppliedCareerItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UsersUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CareerItemsAppliedCareerItemId", "UsersUserId");
-
-                    b.HasIndex("UsersUserId");
-
-                    b.ToTable("CareerItemUser");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -383,9 +368,8 @@ namespace SpartaSiteWebApp_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Date")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("DateUploaded")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -396,11 +380,15 @@ namespace SpartaSiteWebApp_API.Migrations
                     b.ToTable("NewsItems");
                 });
 
-            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.QuestionBank", b =>
+            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Question", b =>
                 {
-                    b.Property<Guid>("QuestionBankId")
+                    b.Property<Guid>("QuestionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActualQuestion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Answer")
                         .IsRequired()
@@ -416,15 +404,11 @@ namespace SpartaSiteWebApp_API.Migrations
                     b.Property<DateTime>("DateUploaded")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Question")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("QuestionTopic")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("QuestionBankId");
+                    b.HasKey("QuestionId");
 
                     b.ToTable("Questions");
                 });
@@ -435,20 +419,82 @@ namespace SpartaSiteWebApp_API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CareerItemId")
+                    b.Property<string>("About")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CVId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CourseId")
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CountryOfResidence")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CourseId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateJoined")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Education")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Experience")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PositionName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("Skills")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("SpartanId");
+
+                    b.HasIndex("CVId");
 
                     b.HasIndex("CourseId");
 
@@ -469,7 +515,10 @@ namespace SpartaSiteWebApp_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("CVId")
+                    b.Property<Guid?>("CVId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CareerItemId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ContactNumber")
@@ -502,9 +551,6 @@ namespace SpartaSiteWebApp_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsSpartan")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -516,16 +562,9 @@ namespace SpartaSiteWebApp_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Skills")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("SpartanId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -534,14 +573,14 @@ namespace SpartaSiteWebApp_API.Migrations
 
                     b.HasIndex("CVId");
 
-                    b.HasIndex("SpartanId");
+                    b.HasIndex("CareerItemId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.VideoResources", b =>
+            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Video", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("VideoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -577,24 +616,9 @@ namespace SpartaSiteWebApp_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("VideoId");
 
                     b.ToTable("Videos");
-                });
-
-            modelBuilder.Entity("CareerItemUser", b =>
-                {
-                    b.HasOne("SpartaSiteWebApp_API.Models.Domain.CareerItem", null)
-                        .WithMany()
-                        .HasForeignKey("CareerItemsAppliedCareerItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SpartaSiteWebApp_API.Models.Domain.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -651,7 +675,7 @@ namespace SpartaSiteWebApp_API.Migrations
             modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.CareerItem", b =>
                 {
                     b.HasOne("SpartaSiteWebApp_API.Models.Domain.Spartan", "Author")
-                        .WithMany("CareerItemsAuthored")
+                        .WithMany()
                         .HasForeignKey("SpartanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -661,11 +685,15 @@ namespace SpartaSiteWebApp_API.Migrations
 
             modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Spartan", b =>
                 {
+                    b.HasOne("SpartaSiteWebApp_API.Models.Domain.CV", "CV")
+                        .WithMany()
+                        .HasForeignKey("CVId");
+
                     b.HasOne("SpartaSiteWebApp_API.Models.Domain.Course", "Course")
                         .WithMany("Spartans")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CourseId");
+
+                    b.Navigation("CV");
 
                     b.Navigation("Course");
                 });
@@ -674,27 +702,23 @@ namespace SpartaSiteWebApp_API.Migrations
                 {
                     b.HasOne("SpartaSiteWebApp_API.Models.Domain.CV", "CV")
                         .WithMany()
-                        .HasForeignKey("CVId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CVId");
 
-                    b.HasOne("SpartaSiteWebApp_API.Models.Domain.Spartan", "Spartan")
-                        .WithMany()
-                        .HasForeignKey("SpartanId");
+                    b.HasOne("SpartaSiteWebApp_API.Models.Domain.CareerItem", null)
+                        .WithMany("Applicants")
+                        .HasForeignKey("CareerItemId");
 
                     b.Navigation("CV");
+                });
 
-                    b.Navigation("Spartan");
+            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.CareerItem", b =>
+                {
+                    b.Navigation("Applicants");
                 });
 
             modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Course", b =>
                 {
                     b.Navigation("Spartans");
-                });
-
-            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Spartan", b =>
-                {
-                    b.Navigation("CareerItemsAuthored");
                 });
 #pragma warning restore 612, 618
         }

@@ -77,7 +77,6 @@ public class SpartanController : ControllerBase
 		updateItem.Title = spartanDTO.Title ?? updateItem.Title;
 		updateItem.ContactNumber = spartanDTO.ContactNumber ?? updateItem.ContactNumber;
 		updateItem.Email = spartanDTO.Email ?? updateItem.Email;
-		updateItem.Role = spartanDTO.Role ?? updateItem.Role;
 		updateItem.About = spartanDTO.About ?? updateItem.About;
 		updateItem.Education = spartanDTO.Education ?? updateItem.Education;
 		updateItem.Experience = spartanDTO.Experience ?? updateItem.Experience;

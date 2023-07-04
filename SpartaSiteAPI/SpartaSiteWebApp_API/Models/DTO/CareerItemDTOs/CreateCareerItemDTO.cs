@@ -1,4 +1,5 @@
 ﻿using SpartaSiteWebApp_API.Models.Domain;
+using SpartaSiteWebApp_API.Models.DTO.SpartanDTOs;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SpartaSiteWebApp_API.Models.DTO.CareerItemDTOs;
@@ -13,5 +14,5 @@ public class CreateCareerItemDTO
     public bool IsFilled { get; set; } = false;
     [ForeignKey("Spartans")]
     public Guid SpartanId { get; set; }
-    public Spartan Author { get; set; }
+    public SpartanDTO Author { get; set; }
 }

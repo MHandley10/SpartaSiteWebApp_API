@@ -1,4 +1,5 @@
 ﻿using SpartaSiteWebApp_API.Models.Domain;
+using SpartaSiteWebApp_API.Models.DTO.SpartanDTOs;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SpartaSiteWebApp_API.Models.DTO.CareerItemDTOs;
@@ -10,5 +11,5 @@ public class CareerItemDTO
     public DateTime PostDate { get; set; }
     public DateTime CloseDate { get; set; }
     public bool IsFilled { get; set; } = false;
-    public Spartan Author { get; set; }
+    public SpartanDTO Author { get; set; }
 }

@@ -28,8 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\DTO\NewsItemDTOs\" />
-    <Folder Include="Models\DTO\QuestionDTOs\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
 

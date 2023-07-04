@@ -33,7 +33,7 @@ public class CareerItemController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var careerItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
+		var careerItem = await _dbContext.CareerItems.Include(x => x.Author).FirstOrDefaultAsync(x => x.CareerItemId == id);
 
 		return Ok(_mapper.Map<CareerItemDTO>(careerItem));
 	}
