@@ -23,6 +23,8 @@ namespace SpartaSiteWebApp_API
 
 			builder.Services.AddScoped<ICareerItemRepository, CareerItemRepository>();
 
+			builder.Services.AddScoped<ISpartanRepository, SpartanRepository>();
+
 			builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 			var app = builder.Build();
