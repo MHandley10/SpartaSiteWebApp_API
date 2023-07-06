@@ -6,6 +6,7 @@ using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
 using SpartaSiteWebApp_API.Models.DTO.SpartanDTOs;
 using SpartaSiteWebApp_API.Models.DTO.UserDTOs;
+using SpartaSiteWebApp_API.Repositories;
 
 namespace SpartaSiteWebApp_API.Controllers;
 
@@ -13,20 +14,18 @@ namespace SpartaSiteWebApp_API.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-	private readonly SpartaSiteDbContext _dbContext;
+	private readonly IUserRepository _userRepository;
 	private readonly IMapper _mapper;
-	public UserController(SpartaSiteDbContext dbContext, IMapper mapper)
+	public UserController(IUserRepository userRepository, IMapper mapper)
 	{
-		this._dbContext = dbContext;
+		_userRepository = userRepository;
 		_mapper = mapper;
 	}
 
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var users = await _dbContext.Users.ToListAsync();
-
-		return Ok(_mapper.Map<List<UserDTO>>(users));
+		return Ok(_mapper.Map<List<UserDTO>>(_userRepository.GetAllAsync()));
 	}
 
 	[HttpGet]
