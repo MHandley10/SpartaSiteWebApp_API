@@ -4,7 +4,6 @@ namespace SpartaSiteWebApp_API.Repositories;
 
 public interface ICareerItemRepository
 {
-
 	Task<List<CareerItem>> GetAllAsync();
 	Task<CareerItem?> GetByIdAsync(Guid id);
 	Task<CareerItem> CreateAsync(CareerItem careerItem);

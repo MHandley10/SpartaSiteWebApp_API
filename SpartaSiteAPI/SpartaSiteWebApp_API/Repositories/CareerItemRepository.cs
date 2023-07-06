@@ -26,9 +26,7 @@ public class CareerItemRepository : ICareerItemRepository
 		careerItem.Author = await dbContext.Spartans.FirstOrDefaultAsync(x => x.SpartanId == careerItem.SpartanId);
 		await dbContext.CareerItems.AddAsync(careerItem);
 		await dbContext.SaveChangesAsync();
-
-		var newCareerItem = await GetByIdAsync(careerItem.CareerItemId);
-		return newCareerItem;
+		return careerItem;
 	}
 	public async Task<CareerItem?> UpdateAsync(Guid id, CareerItem careerItem)
 	{
