@@ -25,6 +25,8 @@ namespace SpartaSiteWebApp_API
 
 			builder.Services.AddScoped<ISpartanRepository, SpartanRepository>();
 
+			builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 			builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 			var app = builder.Build();

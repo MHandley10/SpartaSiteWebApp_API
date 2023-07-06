@@ -32,10 +32,7 @@ public class UserController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId
-		== id);
-
-		return Ok(_mapper.Map<UserDTO>(user));
+		return Ok(_mapper.Map<UserDTO>(_userRepository.GetByIdAsync(id)));
 	}
 
 	[HttpPost]
@@ -43,9 +40,7 @@ public class UserController : ControllerBase
 	{
 		try
 		{
-			var createItem = _mapper.Map<User>(userDTO);
-			_dbContext.Users.Add(createItem);
-			await _dbContext.SaveChangesAsync();
+			_userRepository.CreateAsync(_mapper.Map<User>(userDTO));
 		}
 		catch (Exception)
 		{
@@ -59,30 +54,12 @@ public class UserController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Update(Guid id, UpdateUserDTO userDTO)
 	{
-		var updateItem = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == id);
+		var updateItem = await _userRepository.UpdateAsync(id, _mapper.Map<User>(userDTO));
 
 		if (updateItem is null)
 		{
 			return BadRequest("The item you want to update could not be found.");
 		}
-
-		updateItem.FirstName = userDTO.FirstName ?? updateItem.FirstName;
-		updateItem.MiddleName = userDTO.MiddleName ?? updateItem.MiddleName;
-		updateItem.LastName = userDTO.LastName ?? updateItem.LastName;
-		updateItem.DateOfBirth = userDTO.DateOfBirth;
-		updateItem.Address = userDTO.Address ?? updateItem.Address;
-		updateItem.PostCode = userDTO.PostCode ?? updateItem.PostCode;
-		updateItem.CountryOfResidence = userDTO.CountryOfResidence ?? updateItem.CountryOfResidence;
-		updateItem.Title = userDTO.Title ?? updateItem.Title;
-		updateItem.ContactNumber = userDTO.ContactNumber ?? updateItem.ContactNumber;
-		updateItem.Email = userDTO.Email ?? updateItem.Email;
-		updateItem.About = userDTO.About ?? updateItem.About;
-		updateItem.Education = userDTO.Education ?? updateItem.Education;
-		updateItem.Experience = userDTO.Experience ?? updateItem.Experience;
-		updateItem.Skills = userDTO.Skills ?? updateItem.Skills;
-
-
-		await _dbContext.SaveChangesAsync();
 
 		return Ok(userDTO);
 	}
@@ -91,15 +68,12 @@ public class UserController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
-		var deleteItem = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == id);
+		var deleteItem = await _userRepository.DeleteAsync(id);
 
 		if (deleteItem is null)
 		{
 			return BadRequest("The item you want to delete could not be found.");
 		}
-
-		_dbContext.Users.Remove(deleteItem);
-		await _dbContext.SaveChangesAsync();
 
 		return Ok(_mapper.Map<UserDTO>(deleteItem));
 	}
