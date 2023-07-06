@@ -1,5 +1,7 @@
-﻿using SpartaSiteWebApp_API.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
+using SpartaSiteWebApp_API.Models.DTO.SpartanDTOs;
 
 namespace SpartaSiteWebApp_API.Repositories;
 
@@ -11,28 +13,69 @@ public class SpartanRepository : ISpartanRepository
 		_dbContext = dbContext;
 	}
 
-	public Task<Spartan> CreateAsync(Spartan spartan)
+	public async Task<Spartan> CreateAsync(Spartan spartan)
 	{
-		throw new NotImplementedException();
+		spartan.Course = await _dbContext.Courses.FirstOrDefaultAsync(x => x.CourseId == spartan.CourseId);
+		await _dbContext.Spartans.AddAsync(spartan);
+		await _dbContext.SaveChangesAsync();
+
+		return spartan;
 	}
 
-	public Task<Spartan?> DeleteAsync(Guid id)
+	public async Task<Spartan?> DeleteAsync(Guid id)
 	{
-		throw new NotImplementedException();
+		var existingItem = await _dbContext.Spartans.FirstOrDefaultAsync(x => x.SpartanId == id);
+
+		if (existingItem is null)
+		{
+			return null;
+		}
+
+		_dbContext.Spartans.Remove(existingItem);
+
+		await _dbContext.SaveChangesAsync();
+
+		return existingItem;
 	}
 
-	public Task<List<Spartan>> GetAllAsync()
+	public async Task<List<Spartan>> GetAllAsync()
 	{
-		throw new NotImplementedException();
+		return await _dbContext.Spartans.Include(x => x.Course).ToListAsync();
 	}
 
-	public Task<Spartan?> GetByIdAsync(Guid id)
+	public async Task<Spartan?> GetByIdAsync(Guid id)
 	{
-		throw new NotImplementedException();
+		return await _dbContext.Spartans.Include(x => x.Course).FirstOrDefaultAsync(x => x.SpartanId == id);
 	}
 
-	public Task<Spartan?> UpdateAsync(Guid id, Spartan spartan)
+	public async Task<Spartan?> UpdateAsync(Guid id, Spartan spartan)
 	{
-		throw new NotImplementedException();
+		var updateItem = await _dbContext.Spartans.FirstOrDefaultAsync(x => x.SpartanId == id);
+
+		if (updateItem is null)
+		{
+			return null;
+		}
+
+		updateItem.FirstName = spartan.FirstName ?? updateItem.FirstName;
+		updateItem.MiddleName = spartan.MiddleName ?? updateItem.MiddleName;
+		updateItem.LastName = spartan.LastName ?? updateItem.LastName;
+		updateItem.DateOfBirth = spartan.DateOfBirth;
+		updateItem.Address = spartan.Address ?? updateItem.Address;
+		updateItem.PostCode = spartan.PostCode ?? updateItem.PostCode;
+		updateItem.CountryOfResidence = spartan.CountryOfResidence ?? updateItem.CountryOfResidence;
+		updateItem.Title = spartan.Title ?? updateItem.Title;
+		updateItem.ContactNumber = spartan.ContactNumber ?? updateItem.ContactNumber;
+		updateItem.Email = spartan.Email ?? updateItem.Email;
+		updateItem.About = spartan.About ?? updateItem.About;
+		updateItem.Education = spartan.Education ?? updateItem.Education;
+		updateItem.Experience = spartan.Experience ?? updateItem.Experience;
+		updateItem.Skills = spartan.Skills ?? updateItem.Skills;
+		updateItem.PositionName = spartan.PositionName ?? updateItem.PositionName;
+		updateItem.Salary = spartan.Salary;
+
+		await _dbContext.SaveChangesAsync();
+
+		return updateItem;
 	}
 }

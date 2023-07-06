@@ -8,57 +8,58 @@ namespace SpartaSiteWebApp_API.Repositories;
 
 public class CareerItemRepository : ICareerItemRepository
 {
-	private readonly SpartaSiteDbContext dbContext;
+	private readonly SpartaSiteDbContext _dbContext;
 	public CareerItemRepository(SpartaSiteDbContext dbContext)
 	{
-		this.dbContext = dbContext;
+		_dbContext = dbContext;
 	}
 	public async Task<List<CareerItem>> GetAllAsync()
 	{
-		return await dbContext.CareerItems.Include(x => x.Author).ToListAsync();
+		return await _dbContext.CareerItems.Include(x => x.Author).ToListAsync();
 	}
 	public async Task<CareerItem?> GetByIdAsync(Guid id)
 	{
-		return await dbContext.CareerItems.Include(x => x.Author).FirstOrDefaultAsync(x => x.CareerItemId == id);
+		return await _dbContext.CareerItems.Include(x => x.Author).FirstOrDefaultAsync(x => x.CareerItemId == id);
 	}
 	public async Task<CareerItem> CreateAsync(CareerItem careerItem)
 	{
-		careerItem.Author = await dbContext.Spartans.FirstOrDefaultAsync(x => x.SpartanId == careerItem.SpartanId);
-		await dbContext.CareerItems.AddAsync(careerItem);
-		await dbContext.SaveChangesAsync();
+		careerItem.Author = await _dbContext.Spartans.FirstOrDefaultAsync(x => x.SpartanId == careerItem.SpartanId);
+		await _dbContext.CareerItems.AddAsync(careerItem);
+		await _dbContext.SaveChangesAsync();
+
 		return careerItem;
 	}
 	public async Task<CareerItem?> UpdateAsync(Guid id, CareerItem careerItem)
 	{
-		var existingItem = await dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
+		var updateItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
 
-		if (existingItem is null)
+		if (updateItem is null)
 		{
 			return null;
 		}
 
-		existingItem.Title = careerItem.Title ?? existingItem.Title;
-		existingItem.Description = careerItem.Description ?? existingItem.Description;
-		existingItem.Salary = careerItem.Salary;
-		existingItem.CloseDate = careerItem.CloseDate;
-		existingItem.IsFilled = careerItem.IsFilled;
+		updateItem.Title = careerItem.Title ?? updateItem.Title;
+		updateItem.Description = careerItem.Description ?? updateItem.Description;
+		updateItem.Salary = careerItem.Salary;
+		updateItem.CloseDate = careerItem.CloseDate;
+		updateItem.IsFilled = careerItem.IsFilled;
 
-		await dbContext.SaveChangesAsync();
+		await _dbContext.SaveChangesAsync();
 
-		return existingItem;
+		return updateItem;
 	}
 	public async Task<CareerItem?> DeleteAsync(Guid id)
 	{
-		var existingItem = await dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
+		var existingItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
 
 		if (existingItem is null)
 		{
 			return null;
 		}
 
-		dbContext.CareerItems.Remove(existingItem);
+		_dbContext.CareerItems.Remove(existingItem);
 
-		await dbContext.SaveChangesAsync();
+		await _dbContext.SaveChangesAsync();
 
 		return existingItem;
 	}
