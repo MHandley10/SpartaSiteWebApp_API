@@ -10,5 +10,5 @@ public class UpdateCareerItemDTO
     public string Description { get; set; }
     public decimal Salary { get; set; }
     public DateTime CloseDate { get; set; }
-    public bool IsFilled { get; set; } = false;
+    public bool? IsFilled { get; set; } = false;
 }

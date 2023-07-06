@@ -17,6 +17,7 @@ namespace SpartaSiteWebApp_API;
 		CreateMap<CareerItem, CreateCareerItemDTO>().ReverseMap();
 		CreateMap<CareerItem, UpdateCareerItemDTO>().ReverseMap();
 		CreateMap<CareerItem, CareerItemDTO>().ReverseMap();
+		CreateMap<CareerItemDTO, CreateCareerItemDTO>().ReverseMap();
 		CreateMap<Course, CourseDTO>().ReverseMap();
 		CreateMap<EnquiringCompany, EnquiringCompanyDTO>().ReverseMap();
 		CreateMap<EnquiringCompany, CreateEnquiringCompanyDTO>().ReverseMap();

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
 using SpartaSiteWebApp_API.Models.DTO.CareerItemDTOs;
+using SpartaSiteWebApp_API.Repositories;
 
 namespace SpartaSiteWebApp_API.Controllers;
 
@@ -13,18 +14,18 @@ namespace SpartaSiteWebApp_API.Controllers;
 [ApiController]
 public class CareerItemController : ControllerBase
 {
-	private readonly SpartaSiteDbContext _dbContext;
+	private readonly ICareerItemRepository _careerItemRepository;
 	private readonly IMapper _mapper;
-	public CareerItemController(SpartaSiteDbContext dbContext, IMapper mapper)
+	public CareerItemController(ICareerItemRepository careerItemRepository, IMapper mapper)
 	{
-		this._dbContext = dbContext;
+		_careerItemRepository = careerItemRepository;
 		_mapper = mapper;
 	}
 
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var careerItems = await _dbContext.CareerItems.Include(x => x.Author).ToListAsync();
+		var careerItems = await _careerItemRepository.GetAllAsync();
 
 		return Ok(_mapper.Map<List<CareerItemDTO>>(careerItems));
 	}
@@ -33,7 +34,7 @@ public class CareerItemController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var careerItem = await _dbContext.CareerItems.Include(x => x.Author).FirstOrDefaultAsync(x => x.CareerItemId == id);
+		var careerItem = await _careerItemRepository.GetByIdAsync(id);
 
 		return Ok(_mapper.Map<CareerItemDTO>(careerItem));
 	}
@@ -43,53 +44,30 @@ public class CareerItemController : ControllerBase
 	{
 		try
 		{
-			var createItem = _mapper.Map<CareerItem>(createCareerItemDTO);
-			_dbContext.CareerItems.Add(createItem);
-			await _dbContext.SaveChangesAsync();
+			var createItem = await _careerItemRepository.CreateAsync(_mapper.Map<CareerItem>(createCareerItemDTO));
 		}
 		catch (Exception)
 		{
 			return BadRequest("An error occurred, please try again later.");
 		}
 
-		return Ok(createCareerItemDTO);
+		return Ok(_mapper.Map<CareerItemDTO>(createCareerItemDTO));
 	}
 
 	[HttpPut]
 	[Route("{id}")]
 	public async Task<IActionResult> Update(Guid id, UpdateCareerItemDTO updateCareerItemDTO)
 	{
-		var updateItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
+		var updateItem = await _careerItemRepository.UpdateAsync(id, _mapper.Map<CareerItem>(updateCareerItemDTO));
 
-		if (updateCareerItemDTO is null)
-		{
-			return BadRequest("The item you want to update could not be found.");
-		}
-
-		updateItem.Title = updateCareerItemDTO.Title ?? updateItem.Title;
-		updateItem.Description = updateCareerItemDTO.Description ?? updateItem.Description;
-		updateItem.Salary = updateCareerItemDTO.Salary;
-		updateItem.CloseDate = updateCareerItemDTO.CloseDate;
-		updateItem.IsFilled = updateCareerItemDTO.IsFilled;
-
-		await _dbContext.SaveChangesAsync();
-
-		return Ok(updateCareerItemDTO);
+		return Ok(_mapper.Map<CareerItemDTO>(updateItem));
 	}
 
 	[HttpDelete]
 	[Route("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
-		var deleteItem = await _dbContext.CareerItems.FirstOrDefaultAsync(x => x.CareerItemId == id);
-
-		if (deleteItem is null)
-		{
-			return BadRequest("The item you want to delete could not be found.");
-		}
-
-		_dbContext.CareerItems.Remove(deleteItem);
-		await _dbContext.SaveChangesAsync();
+		var deleteItem = await _careerItemRepository.DeleteAsync(id);
 
 		return Ok(_mapper.Map<CareerItemDTO>(deleteItem));
 	}

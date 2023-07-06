@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
+using SpartaSiteWebApp_API.Repositories;
 
 namespace SpartaSiteWebApp_API
 {
@@ -19,6 +20,8 @@ namespace SpartaSiteWebApp_API
 			builder.Services.AddSwaggerGen();
 
 			builder.Services.AddDbContext<SpartaSiteDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SpartaSiteConnectionString")));
+
+			builder.Services.AddScoped<ICareerItemRepository, CareerItemRepository>();
 
 			builder.Services.AddAutoMapper(typeof(Program).Assembly);
 

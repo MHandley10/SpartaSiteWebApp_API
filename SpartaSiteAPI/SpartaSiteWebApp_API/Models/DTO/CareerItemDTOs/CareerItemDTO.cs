@@ -10,6 +10,6 @@ public class CareerItemDTO
     public string Description { get; set; }
     public DateTime PostDate { get; set; }
     public DateTime CloseDate { get; set; }
-    public bool IsFilled { get; set; } = false;
+    public bool? IsFilled { get; set; } = false;
     public SpartanDTO Author { get; set; }
 }
