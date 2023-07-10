@@ -25,7 +25,7 @@ public class SpartanController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		return Ok(_mapper.Map<List<SpartanDTO>>(_spartanRepository.GetAllAsync()));
+		return Ok(_mapper.Map<List<SpartanDTO>>(await _spartanRepository.GetAllAsync()));
 	}
 
 	[HttpGet]
@@ -42,7 +42,7 @@ public class SpartanController : ControllerBase
 	{
 		try
 		{
-			var createItem = _spartanRepository.CreateAsync(_mapper.Map<Spartan>(createSpartanDTO));
+			var createItem = await _spartanRepository.CreateAsync(_mapper.Map<Spartan>(createSpartanDTO));
 		}
 		catch (Exception)
 		{
@@ -56,7 +56,7 @@ public class SpartanController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Update(Guid id, UpdateSpartanDTO spartanDTO)
 	{
-		var updateItem = _spartanRepository.UpdateAsync(id, _mapper.Map<Spartan>(spartanDTO));
+		var updateItem = await _spartanRepository.UpdateAsync(id, _mapper.Map<Spartan>(spartanDTO));
 
 		if (updateItem is null)
 		{

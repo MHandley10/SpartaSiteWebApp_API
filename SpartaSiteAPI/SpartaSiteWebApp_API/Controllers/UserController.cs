@@ -25,14 +25,14 @@ public class UserController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		return Ok(_mapper.Map<List<UserDTO>>(_userRepository.GetAllAsync()));
+		return Ok(_mapper.Map<List<UserDTO>>(await _userRepository.GetAllAsync()));
 	}
 
 	[HttpGet]
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		return Ok(_mapper.Map<UserDTO>(_userRepository.GetByIdAsync(id)));
+		return Ok(_mapper.Map<UserDTO>(await _userRepository.GetByIdAsync(id)));
 	}
 
 	[HttpPost]
@@ -40,7 +40,7 @@ public class UserController : ControllerBase
 	{
 		try
 		{
-			_userRepository.CreateAsync(_mapper.Map<User>(userDTO));
+			await _userRepository.CreateAsync(_mapper.Map<User>(userDTO));
 		}
 		catch (Exception)
 		{
