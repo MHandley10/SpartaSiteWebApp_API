@@ -6,6 +6,7 @@ using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
 using SpartaSiteWebApp_API.Models.DTO.CareerItemDTOs;
 using SpartaSiteWebApp_API.Models.DTO.CourseDTOs;
+using SpartaSiteWebApp_API.Repositories;
 
 namespace SpartaSiteWebApp_API.Controllers;
 
@@ -13,30 +14,25 @@ namespace SpartaSiteWebApp_API.Controllers;
 [ApiController]
 public class CourseController : ControllerBase
 {
-	private readonly SpartaSiteDbContext _dbContext;
+	private readonly ICourseRepository _courseRepository;
 	private readonly IMapper _mapper;
-	public CourseController(SpartaSiteDbContext dbContext, IMapper mapper)
+	public CourseController(ICourseRepository courseRepository, IMapper mapper)
 	{
-		this._dbContext = dbContext;
+		_courseRepository = courseRepository;
 		_mapper = mapper;
 	}
 
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var courseItems = await _dbContext.Courses.ToListAsync();
-
-		return Ok(_mapper.Map<List<CourseDTO>>(courseItems));
+		return Ok(_mapper.Map<List<CourseDTO>>(_courseRepository.GetAllAsync()));
 	}
 
 	[HttpGet]
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var courseItem = await _dbContext.Courses.FirstOrDefaultAsync(x => x.CourseId
-		== id);
-
-		return Ok(_mapper.Map<CourseDTO>(courseItem));
+		return Ok(_mapper.Map<CourseDTO>(_courseRepository.GetByIdAsync(id)));
 	}
 
 	[HttpPost]
@@ -44,9 +40,7 @@ public class CourseController : ControllerBase
 	{
 		try
 		{
-			var createItem = _mapper.Map<Course>(courseDTO);
-			_dbContext.Courses.Add(createItem);
-			await _dbContext.SaveChangesAsync();
+			await _courseRepository.CreateAsync(_mapper.Map<Course>(courseDTO));
 		}
 		catch (Exception)
 		{
@@ -60,20 +54,12 @@ public class CourseController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Update(Guid id, CourseDTO courseDTO)
 	{
-		var updateItem = await _dbContext.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+		var updateItem = await _courseRepository.UpdateAsync(id, _mapper.Map<Course>(courseDTO));
 
 		if (updateItem is null)
 		{
 			return BadRequest("The item you want to update could not be found.");
 		}
-
-		updateItem.StreamName = courseDTO.StreamName ?? updateItem.StreamName;
-		updateItem.CourseName = courseDTO.CourseName ?? updateItem.CourseName;
-		updateItem.CourseType = courseDTO.CourseType ?? updateItem.CourseType;
-		updateItem.StartDate = courseDTO.StartDate;
-		updateItem.EndDate = courseDTO.EndDate;
-
-		await _dbContext.SaveChangesAsync();
 
 		return Ok(courseDTO);
 	}
@@ -82,15 +68,12 @@ public class CourseController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
-		var deleteItem = await _dbContext.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+		var deleteItem = await _courseRepository.DeleteAsync(id);
 
 		if (deleteItem is null)
 		{
 			return BadRequest("The item you want to delete could not be found.");
 		}
-
-		_dbContext.Courses.Remove(deleteItem);
-		await _dbContext.SaveChangesAsync();
 
 		return Ok(_mapper.Map<CourseDTO>(deleteItem));
 	}
