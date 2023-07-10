@@ -6,7 +6,7 @@ public interface IEnquiringCompanyRepository
 {
 	Task<List<EnquiringCompany>> GetAllAsync();
 	Task<EnquiringCompany?> GetByIdAsync(Guid id);
-	Task<EnquiringCompany> CreateAsync(User user);
-	Task<EnquiringCompany?> UpdateAsync(Guid id, User user);
+	Task<EnquiringCompany> CreateAsync(EnquiringCompany company);
+	Task<EnquiringCompany?> UpdateAsync(Guid id, EnquiringCompany company);
 	Task<EnquiringCompany?> DeleteAsync(Guid id);
 }
