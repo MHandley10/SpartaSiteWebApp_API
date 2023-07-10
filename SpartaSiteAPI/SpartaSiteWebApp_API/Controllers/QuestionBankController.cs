@@ -6,6 +6,7 @@ using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
 using SpartaSiteWebApp_API.Models.DTO.EnquiringCopmanyDTOs;
 using SpartaSiteWebApp_API.Models.DTO.QuestionDTOs;
+using SpartaSiteWebApp_API.Repositories;
 
 namespace SpartaSiteWebApp_API.Controllers;
 
@@ -13,30 +14,25 @@ namespace SpartaSiteWebApp_API.Controllers;
 [ApiController]
 public class QuestionBankController : ControllerBase
 {
-	private readonly SpartaSiteDbContext _dbContext;
+	private readonly IQuestionBankRepository _questionBankRepository;
 	private readonly IMapper _mapper;
-	public QuestionBankController(SpartaSiteDbContext dbContext, IMapper mapper)
+	public QuestionBankController(IQuestionBankRepository questionBankRepository, IMapper mapper)
 	{
-		this._dbContext = dbContext;
+		_questionBankRepository = questionBankRepository;
 		_mapper = mapper;
 	}
 
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var questionItems = await _dbContext.Questions.ToListAsync();
-
-		return Ok(_mapper.Map<List<QuestionDTO>>(questionItems));
+		return Ok(_mapper.Map<List<QuestionDTO>>(await _questionBankRepository.GetAllAsync()));
 	}
 
 	[HttpGet]
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var questionItem = await _dbContext.Questions.FirstOrDefaultAsync(x => x.QuestionId
-		== id);
-
-		return Ok(_mapper.Map<EnquiringCompanyDTO>(questionItem));
+		return Ok(_mapper.Map<EnquiringCompanyDTO>(await _questionBankRepository.GetByIdAsync(id)));
 	}
 
 	[HttpPost]
@@ -44,9 +40,7 @@ public class QuestionBankController : ControllerBase
 	{
 		try
 		{
-			var createItem = _mapper.Map<Question>(questionDTO);
-			_dbContext.Questions.Add(createItem);
-			await _dbContext.SaveChangesAsync();
+			await _questionBankRepository.CreateAsync(_mapper.Map<Question>(questionDTO));
 		}
 		catch (Exception)
 		{
@@ -60,20 +54,12 @@ public class QuestionBankController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Update(Guid id, UpdateQuestionDTO questionDTO)
 	{
-		var updateItem = await _dbContext.Questions.FirstOrDefaultAsync(x => x.QuestionId == id);
+		var updateItem = await _questionBankRepository.UpdateAsync(id, _mapper.Map<Question>(questionDTO));
 
 		if (updateItem is null)
 		{
 			return BadRequest("The item you want to update could not be found.");
 		}
-
-		updateItem.ActualQuestion = questionDTO.ActualQuestion?? updateItem.ActualQuestion;
-		updateItem.Answer = questionDTO.Answer ?? updateItem.Answer;
-		updateItem.Comments = questionDTO.Comments ?? updateItem.Comments;
-		updateItem.Author = questionDTO.Author ?? updateItem.Author;
-		updateItem.QuestionTopic = questionDTO.QuestionTopic ?? updateItem.QuestionTopic;
-
-		await _dbContext.SaveChangesAsync();
 
 		return Ok(questionDTO);
 	}
@@ -82,15 +68,12 @@ public class QuestionBankController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
-		var deleteItem = await _dbContext.Questions.FirstOrDefaultAsync(x => x.QuestionId == id);
+		var deleteItem = await _questionBankRepository.DeleteAsync(id);
 
 		if (deleteItem is null)
 		{
 			return BadRequest("The item you want to delete could not be found.");
 		}
-
-		_dbContext.Questions.Remove(deleteItem);
-		await _dbContext.SaveChangesAsync();
 
 		return Ok(_mapper.Map<QuestionDTO>(deleteItem));
 	}
