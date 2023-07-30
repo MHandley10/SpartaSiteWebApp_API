@@ -19,9 +19,19 @@ public class NewsItemRepository : INewsItemRepository
 		return newsItem;
 	}
 
-	public Task<NewsItem?> DeleteAsync(Guid id)
+	public async Task<NewsItem?> DeleteAsync(Guid id)
 	{
-		throw new NotImplementedException();
+		var existingItem = await _dbContext.NewsItems.FirstOrDefaultAsync(x => x.NewsItemId == id);
+		if (existingItem is null)
+		{
+			return null;
+		}
+
+		_dbContext.NewsItems.Remove(existingItem);
+
+		await _dbContext.SaveChangesAsync();
+
+		return existingItem;
 	}
 
 	public Task<List<NewsItem>> GetAllAsync()
