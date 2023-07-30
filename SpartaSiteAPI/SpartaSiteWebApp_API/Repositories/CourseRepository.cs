@@ -18,7 +18,7 @@ public class CourseRepository : ICourseRepository
 		_dbContext.Courses.Add(course);
 		await _dbContext.SaveChangesAsync();
 
-		return User;
+		return course;
 	}
 
 	public async Task<Course?> DeleteAsync(Guid id)
