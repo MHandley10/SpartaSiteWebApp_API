@@ -1,8 +1,12 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
 using SpartaSiteWebApp_API.Repositories;
+using System.Text;
 
 namespace SpartaSiteWebApp_API
 {
@@ -28,6 +32,35 @@ namespace SpartaSiteWebApp_API
 			builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 			builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+			builder.Services.AddIdentityCore<IdentityUser>()
+			.AddRoles<IdentityRole>()
+			.AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("NZWalks")
+			.AddEntityFrameworkStores<SpartaSiteDbContext>()
+			.AddDefaultTokenProviders();
+
+			builder.Services.Configure<IdentityOptions>(options =>
+			{
+				options.Password.RequireDigit = false;
+				options.Password.RequireLowercase = false;
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireUppercase = false;
+				options.Password.RequiredLength = 6;
+				options.Password.RequiredUniqueChars = 1;
+			});
+
+			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				options.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuer = true,
+					ValidateAudience = true,
+					ValidateLifetime = true,
+					ValidateIssuerSigningKey = true,
+					ValidIssuer = builder.Configuration["Jwt:Issuer"],
+					ValidAudience = builder.Configuration["Jwt:Audience"],
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+				});
 
 			var app = builder.Build();
 
