@@ -14,6 +14,7 @@ public class NewsItemRepository : INewsItemRepository
 	}
 	public async Task<NewsItem> CreateAsync(NewsItem newsItem)
 	{
+		newsItem.DateUploaded = DateTime.Now;
 		await _dbContext.NewsItems.AddAsync(newsItem);
 		await _dbContext.SaveChangesAsync();
 		return newsItem;
@@ -34,18 +35,31 @@ public class NewsItemRepository : INewsItemRepository
 		return existingItem;
 	}
 
-	public Task<List<NewsItem>> GetAllAsync()
+	public async Task<List<NewsItem>> GetAllAsync()
 	{
-		throw new NotImplementedException();
+		return await _dbContext.NewsItems.ToListAsync();
 	}
 
-	public Task<NewsItem?> GetByIdAsync(Guid id)
+	public async Task<NewsItem?> GetByIdAsync(Guid id)
 	{
-		throw new NotImplementedException();
+		return await _dbContext.NewsItems.FirstOrDefaultAsync(x => x.NewsItemId == id);
 	}
 
-	public Task<NewsItem?> UpdateAsync(Guid id, NewsItem newsItem)
+	public async Task<NewsItem?> UpdateAsync(Guid id, NewsItem newsItem)
 	{
-		throw new NotImplementedException();
+		var updateItem = await _dbContext.NewsItems.FirstOrDefaultAsync(x => x.NewsItemId == id);
+
+		if (updateItem is null)
+		{
+			return null;
+		}
+
+		updateItem.Content = newsItem.Content ?? updateItem.Content;
+		updateItem.Author = newsItem.Author ?? updateItem.Author;
+		updateItem.Title = newsItem.Title ?? updateItem.Title;
+
+		await _dbContext.SaveChangesAsync();
+
+		return updateItem;
 	}
 }
