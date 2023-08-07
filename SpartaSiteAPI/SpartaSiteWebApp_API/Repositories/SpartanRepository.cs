@@ -49,12 +49,12 @@ public class SpartanRepository : ISpartanRepository
 
 	public async Task<List<Spartan>> GetAllAsync()
 	{
-		return await _dbContext.Spartans.Include(x => x.Course).ToListAsync();
+		return await _dbContext.Spartans.Include(x => x.Course).Include(x => x.CV).ToListAsync();
 	}
 
 	public async Task<Spartan?> GetByIdAsync(Guid id)
 	{
-		var spartan = await _dbContext.Spartans.Include(x => x.Course).FirstOrDefaultAsync(x => x.SpartanId == id);
+		var spartan = await _dbContext.Spartans.Include(x => x.Course).Include(x => x.CV).FirstOrDefaultAsync(x => x.SpartanId == id);
 
 		return spartan;
 	}

@@ -23,5 +23,4 @@ public class CreateUserDTO
 	public string Skills { get; set; }
 	[ForeignKey("CVs")]
 	public Guid? CVId { get; set; }
-	public CV? CV { get; set; }
 }

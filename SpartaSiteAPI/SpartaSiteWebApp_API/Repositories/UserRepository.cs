@@ -37,12 +37,12 @@ public class UserRepository : IUserRepository
 
 	public async Task<List<User>> GetAllAsync()
 	{
-		return await _dbContext.Users.ToListAsync();
+		return await _dbContext.Users.Include(x => x.CV).ToListAsync();
 	}
 
 	public async Task<User?> GetByIdAsync(Guid id)
 	{
-		var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == id);
+		var user = await _dbContext.Users.Include(x => x.CV).FirstOrDefaultAsync(x => x.UserId == id);
 
 		return user;
 	}

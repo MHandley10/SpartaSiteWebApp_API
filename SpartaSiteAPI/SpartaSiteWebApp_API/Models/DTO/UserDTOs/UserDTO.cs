@@ -19,7 +19,5 @@ public class UserDTO
 	public string Education { get; set; }
 	public string Experience { get; set; }
 	public string Skills { get; set; }
-	[ForeignKey("CVs")]
-	public Guid? CVId { get; set; }
 	public CV? CV { get; set; }
 }
