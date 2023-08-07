@@ -16,6 +16,7 @@ public class QuestionBankRepository : IQuestionBankRepository
 
 	public async Task<Question> CreateAsync(Question question)
 	{
+		question.DateUploaded = DateTime.Now;
 		_dbContext.Questions.Add(question);
 		await _dbContext.SaveChangesAsync();
 

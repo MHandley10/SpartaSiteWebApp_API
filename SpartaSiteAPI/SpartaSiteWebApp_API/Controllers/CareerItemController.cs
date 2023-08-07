@@ -51,7 +51,7 @@ public class CareerItemController : ControllerBase
 			return BadRequest("An error occurred, please try again later.");
 		}
 
-		return Ok(_mapper.Map<CareerItemDTO>(createCareerItemDTO));
+		return Ok(_mapper.Map<CreateCareerItemDTO>(createCareerItemDTO));
 	}
 
 	[HttpPut]

@@ -1,4 +1,6 @@
-﻿using SpartaSiteWebApp_API.Models.Domain;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using SpartaSiteWebApp_API.Models.Domain;
 using System.ComponentModel.Design;
 
 namespace SpartaSiteWebApp_API.Data;
@@ -9,6 +11,9 @@ public class SeedData
 	public static void Initialise(IServiceProvider serviceProvider)
 	{
 		var context = serviceProvider.GetRequiredService<SpartaSiteDbContext>();
+		/*var userManagerSpartan = serviceProvider.GetRequiredService<UserManager<Spartan>>();
+		var userManagerUsers = serviceProvider.GetRequiredService<UserManager<User>>();*/
+		/*var roleStore = new RoleStore<IdentityRole>(context);*/
 
 		if (context.CareerItems.Any() || context.Courses.Any() || context.CVs.Any() || context.EnquiringCompanies.Any() || context.NewsItems.Any() || context.Questions.Any() || context.Spartans.Any() || context.Users.Any() || context.Videos.Any())
 		{
@@ -23,6 +28,35 @@ public class SeedData
 			context.Videos.RemoveRange(context.Videos);
 			context.SaveChanges();
 		}
+
+		/*var trainer = new IdentityRole
+		{
+			Name = "Trainer",
+			NormalizedName = "TRAINER"
+		};
+		var trainee = new IdentityRole
+		{
+			Name = "Trainee",
+			NormalizedName = "TRAINER"
+		};
+		var user = new IdentityRole
+		{
+			Name = "User",
+			NormalizedName = "USER"
+		};
+
+		roleStore
+			  .CreateAsync(trainer)
+			  .GetAwaiter()
+			  .GetResult();
+		roleStore
+			.CreateAsync(trainee)
+			.GetAwaiter()
+			.GetResult();
+		roleStore
+			.CreateAsync(user)
+			.GetAwaiter()
+			.GetResult()*/;
 
 		var danyalCV = new CV
 		{
@@ -98,7 +132,9 @@ public class SeedData
 			PositionName = "Spartan",
 			Salary = (decimal)19_000.00,
 			CourseId = tech211.CourseId,
-			Course = tech211
+			Course = tech211,
+			Role = "Trainee"
+			
 		};
 
 		var nooreenSpartan = new Spartan
@@ -120,7 +156,8 @@ public class SeedData
 			CVId = nooreenCV.CVId,
 			CV = nooreenCV,
 			PositionName = "Talent Team Spartan",
-			Salary = (decimal)19_000.00
+			Salary = (decimal)19_000.00,
+			Role = "Trainer"
 		};
 
 		var jacobSpartan = new Spartan
@@ -144,7 +181,8 @@ public class SeedData
 			PositionName = "Trainer Spartan",
 			Salary = (decimal)19_000.00,
 			CourseId = tech211.CourseId,
-			Course = tech211
+			Course = tech211,
+			Role = "Trainee"
 		};
 
 		var danyal = new User
@@ -164,7 +202,8 @@ public class SeedData
 			Experience = "Many years as an excellent C# Developer",
 			Skills = "C#, Python, Java",
 			CVId = nooreenCV.CVId,
-			CV = danyalCV
+			CV = danyalCV,
+			Role = "User"
 		};
 		var nooreen = new User
 		{
@@ -183,7 +222,8 @@ public class SeedData
 			Experience = "Very experience mechanical engineer",
 			Skills = "C#, CAD, Solidworks",
 			CVId = nooreenCV.CVId,
-			CV = nooreenCV
+			CV = nooreenCV,
+			Role = "User"
 		};
 		var jacob = new User
 		{
@@ -202,7 +242,8 @@ public class SeedData
 			Experience = "Lots of teaching experience in Maths, ready to take my career to the next level!",
 			Skills = "C#, Python, MATLAB",
 			CVId = jacobCV.CVId,
-			CV = jacobCV
+			CV = jacobCV,
+			Role = "User"
 		};
 		var dave = new User
 		{
@@ -221,8 +262,38 @@ public class SeedData
 			Experience = "15 years as a self-employed plumber",
 			Skills = "I can fit a mean U-bend",
 			CVId = daveCV.CVId,
-			CV = daveCV
+			CV = daveCV,
+			Role = "User"
 		};
+
+		/*userManagerSpartan
+				.CreateAsync(danyalSpartan, "Password1!")
+				.GetAwaiter()
+				.GetResult();
+		userManagerSpartan
+				.CreateAsync(nooreenSpartan, "Password1!")
+				.GetAwaiter()
+				.GetResult();
+		userManagerSpartan
+				.CreateAsync(jacobSpartan, "Password1!")
+				.GetAwaiter()
+				.GetResult();
+		userManagerUsers
+				.CreateAsync(danyal, "Password1!")
+				.GetAwaiter()
+				.GetResult();
+		userManagerUsers
+				.CreateAsync(nooreen, "Password1!")
+				.GetAwaiter()
+				.GetResult();
+		userManagerUsers
+				.CreateAsync(jacob, "Password1!")
+				.GetAwaiter()
+				.GetResult();
+		userManagerUsers
+				.CreateAsync(dave, "Password1!")
+				.GetAwaiter()
+				.GetResult();*/
 
 		var career1 = new CareerItem
 		{
@@ -390,6 +461,44 @@ public class SeedData
 		context.Videos.AddRange(
 
 			);
+		/*context.UserRoles.AddRange(new IdentityUserRole<string>[]
+		{
+			new IdentityUserRole<string>
+				{
+					UserId = userManagerSpartan.GetUserIdAsync(danyalSpartan).Result,
+					RoleId = roleStore.GetRoleIdAsync(trainee).Result
+				},
+			new IdentityUserRole<string>
+				{
+					UserId = userManagerSpartan.GetUserIdAsync(nooreenSpartan).Result,
+					RoleId = roleStore.GetRoleIdAsync(trainer).Result
+				},
+			new IdentityUserRole<string>
+				{
+					UserId = userManagerSpartan.GetUserIdAsync(jacobSpartan).Result,
+					RoleId = roleStore.GetRoleIdAsync(trainer).Result
+				},
+			new IdentityUserRole<string>
+				{
+					UserId = userManagerUsers.GetUserIdAsync(danyal).Result,
+					RoleId = roleStore.GetRoleIdAsync(user).Result
+				},
+			new IdentityUserRole<string>
+				{
+					UserId = userManagerUsers.GetUserIdAsync(nooreen).Result,
+					RoleId = roleStore.GetRoleIdAsync(user).Result
+				},
+			new IdentityUserRole<string>
+				{
+					UserId = userManagerUsers.GetUserIdAsync(jacob).Result,
+					RoleId = roleStore.GetRoleIdAsync(user).Result
+				},
+			new IdentityUserRole<string>
+				{
+					UserId = userManagerUsers.GetUserIdAsync(dave).Result,
+					RoleId = roleStore.GetRoleIdAsync(user).Result
+				}
+		});*/
 		context.SaveChanges();
 	}
 }

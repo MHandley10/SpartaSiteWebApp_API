@@ -32,11 +32,11 @@ public class QuestionBankController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		return Ok(_mapper.Map<EnquiringCompanyDTO>(await _questionBankRepository.GetByIdAsync(id)));
+		return Ok(_mapper.Map<QuestionDTO>(await _questionBankRepository.GetByIdAsync(id)));
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Create(QuestionDTO questionDTO)
+	public async Task<IActionResult> Create(CreateQuestionDTO questionDTO)
 	{
 		try
 		{

@@ -15,6 +15,7 @@ public class EnquiringCompanyRepository : IEnquiringCompanyRepository
 
 	public async Task<EnquiringCompany> CreateAsync(EnquiringCompany company)
 	{
+		company.DateEnquired = DateTime.Now;
 		await _dbContext.EnquiringCompanies.AddAsync(company);
 		await _dbContext.SaveChangesAsync();
 

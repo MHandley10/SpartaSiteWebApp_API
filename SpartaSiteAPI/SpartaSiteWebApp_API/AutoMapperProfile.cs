@@ -29,8 +29,10 @@ namespace SpartaSiteWebApp_API;
 		CreateMap<User, CreateUserDTO>().ReverseMap();
 		CreateMap<User, UpdateUserDTO>().ReverseMap();
 		CreateMap<NewsItem, NewsItemDTO>().ReverseMap();
+		CreateMap<NewsItem, CreateNewsItemDTO>().ReverseMap();
 		CreateMap<NewsItem, UpdateNewsItemDTO>().ReverseMap();
 		CreateMap<Question, QuestionDTO>().ReverseMap();
+		CreateMap<Question, CreateQuestionDTO>().ReverseMap();
 		CreateMap<Question, UpdateQuestionDTO>().ReverseMap();
 	}
 }

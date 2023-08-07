@@ -15,19 +15,20 @@ public class CareerItemRepository : ICareerItemRepository
 	}
 	public async Task<List<CareerItem>> GetAllAsync()
 	{
-		return await _dbContext.CareerItems.Include(x => x.Author).ToListAsync();
+		return await _dbContext.CareerItems.Include(x => x.Author).ThenInclude(x => x.Course).ToListAsync();
 	}
 	public async Task<CareerItem?> GetByIdAsync(Guid id)
 	{
-		return await _dbContext.CareerItems.Include(x => x.Author).FirstOrDefaultAsync(x => x.CareerItemId == id);
+		return await _dbContext.CareerItems.Include(x => x.Author).ThenInclude(x => x.Course).FirstOrDefaultAsync(x => x.CareerItemId == id);
 	}
 	public async Task<CareerItem> CreateAsync(CareerItem careerItem)
 	{
+		careerItem.PostDate = DateTime.Now;
 		careerItem.Author = await _dbContext.Spartans.FirstOrDefaultAsync(x => x.SpartanId == careerItem.SpartanId);
 		await _dbContext.CareerItems.AddAsync(careerItem);
 		await _dbContext.SaveChangesAsync();
 
-		return careerItem;
+		return careerItem; //await _dbContext.CareerItems.Include(x => x.Author).FirstOrDefaultAsync(x => x.CareerItemId == careerItem.CareerItemId);
 	}
 	public async Task<CareerItem?> UpdateAsync(Guid id, CareerItem careerItem)
 	{

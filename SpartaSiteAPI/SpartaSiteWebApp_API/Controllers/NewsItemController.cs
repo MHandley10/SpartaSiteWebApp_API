@@ -36,7 +36,7 @@ public class NewsItemController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Create(NewsItemDTO newsItemDTO)
+	public async Task<IActionResult> Create(CreateNewsItemDTO newsItemDTO)
 	{
 		try
 		{

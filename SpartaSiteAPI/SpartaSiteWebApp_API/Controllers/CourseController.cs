@@ -25,14 +25,14 @@ public class CourseController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		return Ok(_mapper.Map<List<CourseDTO>>(_courseRepository.GetAllAsync()));
+		return Ok(_mapper.Map<List<CourseDTO>>(await _courseRepository.GetAllAsync()));
 	}
 
 	[HttpGet]
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		return Ok(_mapper.Map<CourseDTO>(_courseRepository.GetByIdAsync(id)));
+		return Ok(_mapper.Map<CourseDTO>(await _courseRepository.GetByIdAsync(id)));
 	}
 
 	[HttpPost]

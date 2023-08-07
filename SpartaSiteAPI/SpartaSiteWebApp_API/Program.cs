@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using SpartaSiteWebApp_API.Data;
 using SpartaSiteWebApp_API.Models.Domain;
 using SpartaSiteWebApp_API.Repositories;
@@ -21,7 +22,35 @@ namespace SpartaSiteWebApp_API
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+			builder.Services.AddSwaggerGen(options =>
+			{
+				options.SwaggerDoc("v1", new OpenApiInfo { Title = "Sparta Site API", Version = "v1" });
+				options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+				{
+					Name = "Authorization",
+					In = ParameterLocation.Header,
+					Type = SecuritySchemeType.ApiKey,
+					Scheme = JwtBearerDefaults.AuthenticationScheme
+				});
+
+				options.AddSecurityRequirement(new OpenApiSecurityRequirement
+			{
+				{
+				new OpenApiSecurityScheme
+					{
+						Reference = new OpenApiReference
+						{
+							Type = ReferenceType.SecurityScheme,
+							Id = JwtBearerDefaults.AuthenticationScheme
+						},
+						Scheme = "Oauth2",
+						Name = JwtBearerDefaults.AuthenticationScheme,
+						In = ParameterLocation.Header
+					},
+					new List<string>()
+				}
+			});
+			});
 
 			builder.Services.AddDbContext<SpartaSiteDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SpartaSiteConnectionString")));
 
@@ -30,6 +59,16 @@ namespace SpartaSiteWebApp_API
 			builder.Services.AddScoped<ISpartanRepository, SpartanRepository>();
 
 			builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+			builder.Services.AddScoped<IEnquiringCompanyRepository, EnquiringCompanyRepository>();
+
+			builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
+			builder.Services.AddScoped<IQuestionBankRepository, QuestionBankRepository>();
+
+			builder.Services.AddScoped<INewsItemRepository, NewsItemRepository>();
+
+			builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 			builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
