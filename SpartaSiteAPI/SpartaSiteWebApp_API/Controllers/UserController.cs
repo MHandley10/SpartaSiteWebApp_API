@@ -32,7 +32,14 @@ public class UserController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		return Ok(_mapper.Map<UserDTO>(await _userRepository.GetByIdAsync(id)));
+		var user = await _userRepository.GetByIdAsync(id);
+
+		if (user is null)
+		{
+			return BadRequest("The user you requested could not be found.");
+		}
+
+		return Ok(_mapper.Map<UserDTO>(user));
 	}
 
 	[HttpPost]

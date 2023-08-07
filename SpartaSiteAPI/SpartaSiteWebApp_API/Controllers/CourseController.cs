@@ -32,7 +32,14 @@ public class CourseController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		return Ok(_mapper.Map<CourseDTO>(await _courseRepository.GetByIdAsync(id)));
+		var course = await _courseRepository.GetByIdAsync(id);
+
+		if (course is null)
+		{
+			return BadRequest("The Course you requested could not be found");
+		}
+
+		return Ok(_mapper.Map<CourseDTO>(course));
 	}
 
 	[HttpPost]

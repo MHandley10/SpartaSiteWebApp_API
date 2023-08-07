@@ -32,7 +32,14 @@ public class QuestionBankController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		return Ok(_mapper.Map<QuestionDTO>(await _questionBankRepository.GetByIdAsync(id)));
+		var question = await _questionBankRepository.GetByIdAsync(id);
+
+		if (question is null)
+		{
+			return BadRequest("The question you requested could not be found.");
+		}
+
+		return Ok(_mapper.Map<QuestionDTO>(question));
 	}
 
 	[HttpPost]

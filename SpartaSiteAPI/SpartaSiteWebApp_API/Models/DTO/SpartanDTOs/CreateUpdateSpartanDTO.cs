@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SpartaSiteWebApp_API.Models.DTO.SpartanDTOs;
 
-public class CreateSpartanDTO
+public class CreateUpdateSpartanDTO
 {
 	public string FirstName { get; set; }
 	public string? MiddleName { get; set; }
@@ -23,11 +23,9 @@ public class CreateSpartanDTO
 	public string Experience { get; set; }
 	public string Skills { get; set; }
 	[ForeignKey("CVs")]
-	public Guid? CVId { get; set; }
-	public CV? CV { get; set; }
+	public Guid? CVId { get; set; } = null;
 	public string PositionName { get; set; }
 	public decimal Salary { get; set; }
 	[ForeignKey("Courses")]
-	public Guid? CourseId { get; set; }
-	public Course? Course { get; set; }
+	public Guid? CourseId { get; set; } = null;
 }

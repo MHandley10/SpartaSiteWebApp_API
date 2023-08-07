@@ -42,7 +42,9 @@ public class UserRepository : IUserRepository
 
 	public async Task<User?> GetByIdAsync(Guid id)
 	{
-		return await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == id);
+		var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == id);
+
+		return user;
 	}
 
 	public async Task<User?> UpdateAsync(Guid id, User user)

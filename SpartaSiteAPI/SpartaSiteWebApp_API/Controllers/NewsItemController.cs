@@ -32,7 +32,14 @@ public class NewsItemController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		return Ok(_mapper.Map<NewsItemDTO>(await _newsItemRepository.GetByIdAsync(id)));
+		var newsItem = await _newsItemRepository.GetByIdAsync(id);
+
+		if (newsItem is null)
+		{
+			return BadRequest("The News Item you requested could not be found.");
+		}
+
+		return Ok(_mapper.Map<NewsItemDTO>(newsItem));
 	}
 
 	[HttpPost]

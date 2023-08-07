@@ -16,6 +16,15 @@ public class SpartanRepository : ISpartanRepository
 	public async Task<Spartan> CreateAsync(Spartan spartan)
 	{
 		spartan.Course = await _dbContext.Courses.FirstOrDefaultAsync(x => x.CourseId == spartan.CourseId);
+		if (spartan.Course is null)
+		{
+			spartan.CourseId = null;
+		}
+		spartan.CV = await _dbContext.CVs.FirstOrDefaultAsync(x => x.CVId == spartan.CVId);
+		if (spartan.CV is null)
+		{
+			spartan.CVId = null;
+		}
 		await _dbContext.Spartans.AddAsync(spartan);
 		await _dbContext.SaveChangesAsync();
 
@@ -45,7 +54,9 @@ public class SpartanRepository : ISpartanRepository
 
 	public async Task<Spartan?> GetByIdAsync(Guid id)
 	{
-		return await _dbContext.Spartans.Include(x => x.Course).FirstOrDefaultAsync(x => x.SpartanId == id);
+		var spartan = await _dbContext.Spartans.Include(x => x.Course).FirstOrDefaultAsync(x => x.SpartanId == id);
+
+		return spartan;
 	}
 
 	public async Task<Spartan?> UpdateAsync(Guid id, Spartan spartan)
@@ -73,6 +84,11 @@ public class SpartanRepository : ISpartanRepository
 		updateItem.Skills = spartan.Skills ?? updateItem.Skills;
 		updateItem.PositionName = spartan.PositionName ?? updateItem.PositionName;
 		updateItem.Salary = spartan.Salary;
+		
+		//TODO Decide whether or not to prevent people from entering incorrect Ids and if so whether or not to prevent having no CV or course attached.
+
+		updateItem.CVId = spartan.CVId ?? updateItem.CVId;
+		updateItem.CourseId = spartan.CourseId ?? updateItem.CourseId;
 
 		await _dbContext.SaveChangesAsync();
 

@@ -36,6 +36,11 @@ public class CareerItemController : ControllerBase
 	{
 		var careerItem = await _careerItemRepository.GetByIdAsync(id);
 
+		if (careerItem is null)
+		{
+			return BadRequest("The Career Item you requested could not be found.");
+		}
+
 		return Ok(_mapper.Map<CareerItemDTO>(careerItem));
 	}
 

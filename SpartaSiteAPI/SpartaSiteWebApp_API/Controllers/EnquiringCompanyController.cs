@@ -32,7 +32,14 @@ public class EnquiringCompanyController : ControllerBase
 	[Route("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		return Ok(_mapper.Map<EnquiringCompanyDTO>(await _enquiringCompanyRepository.GetByIdAsync(id)));
+		var enquiringCompany = await _enquiringCompanyRepository.GetByIdAsync(id);
+
+		if (enquiringCompany is null)
+		{
+			return BadRequest("The Enquiring Company you requested could not be found");
+		}
+
+		return Ok(_mapper.Map<EnquiringCompanyDTO>(enquiringCompany));
 	}
 
 	[HttpPost]

@@ -33,12 +33,17 @@ public class SpartanController : ControllerBase
 	public async Task<IActionResult> Get(Guid id)
 	{
 		var spartan = await _spartanRepository.GetByIdAsync(id);
+		
+		if (spartan is null)
+		{
+			return BadRequest("The spartan you requested couldn't be found");
+		}
 
 		return Ok(_mapper.Map<SpartanDTO>(spartan));
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Create(CreateSpartanDTO createSpartanDTO)
+	public async Task<IActionResult> Create(CreateUpdateSpartanDTO createSpartanDTO)
 	{
 		try
 		{
@@ -54,7 +59,7 @@ public class SpartanController : ControllerBase
 
 	[HttpPut]
 	[Route("{id}")]
-	public async Task<IActionResult> Update(Guid id, UpdateSpartanDTO spartanDTO)
+	public async Task<IActionResult> Update(Guid id, CreateUpdateSpartanDTO spartanDTO)
 	{
 		var updateItem = await _spartanRepository.UpdateAsync(id, _mapper.Map<Spartan>(spartanDTO));
 
