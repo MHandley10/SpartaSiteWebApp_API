@@ -13,9 +13,51 @@ public class CareerItemRepository : ICareerItemRepository
 	{
 		_dbContext = dbContext;
 	}
-	public async Task<List<CareerItem>> GetAllAsync()
+	public async Task<List<CareerItem>> GetAllAsync(string? filterOn = null, string? filterQuery = null, string? sortBy = null, bool isAscending = true)
 	{
-		return await _dbContext.CareerItems.Include(x => x.Author).ThenInclude(x => x.Course).ToListAsync();
+		var careerItems = _dbContext.CareerItems.Include(x => x.Author).ThenInclude(x => x.Course).AsQueryable();
+
+		if (string.IsNullOrWhiteSpace(filterOn) is false && string.IsNullOrWhiteSpace(filterQuery) is false)
+		{
+			if (filterOn.Equals("Salary", StringComparison.OrdinalIgnoreCase))
+			{
+				careerItems = careerItems.Where(x => x.Salary.Equals(decimal.Parse(filterQuery)));
+			}
+			else if (filterOn.Equals("Title", StringComparison.OrdinalIgnoreCase))
+			{
+				careerItems = careerItems.Where(x => x.Title.Contains(filterQuery));
+			}
+		}
+
+		if (string.IsNullOrWhiteSpace(sortBy) is false)
+		{
+			if (sortBy.Equals("CloseDate", StringComparison.OrdinalIgnoreCase))
+			{
+				careerItems = isAscending ? careerItems.OrderBy(x => x.CloseDate) : careerItems.OrderByDescending(x => x.CloseDate);
+			}
+			else if (sortBy.Equals("PostDate", StringComparison.OrdinalIgnoreCase))
+			{
+				careerItems = isAscending ? careerItems.OrderBy(x => x.PostDate) : careerItems.OrderByDescending(x => x.PostDate);
+			}
+			else if (sortBy.Equals("Title", StringComparison.OrdinalIgnoreCase))
+			{
+				careerItems = isAscending ? careerItems.OrderBy(x => x.Title) : careerItems.OrderByDescending(x => x.Title);
+			}
+			else if (sortBy.Equals("Salary", StringComparison.OrdinalIgnoreCase))
+			{
+				careerItems = isAscending ? careerItems.OrderBy(x => x.Salary) : careerItems.OrderByDescending(x => x.Salary);
+			}
+			else if (sortBy.Equals("Author", StringComparison.OrdinalIgnoreCase))
+			{
+				careerItems = isAscending ? careerItems.OrderBy(x => x.Author) : careerItems.OrderByDescending(x => x.Author);
+			}
+			else if (sortBy.Equals("IsFilled", StringComparison.OrdinalIgnoreCase))
+			{
+				careerItems = isAscending ? careerItems.OrderBy(x => x.IsFilled) : careerItems.OrderByDescending(x => x.IsFilled);
+			}
+		}
+
+		return await careerItems.ToListAsync();
 	}
 	public async Task<CareerItem?> GetByIdAsync(Guid id)
 	{
@@ -28,7 +70,7 @@ public class CareerItemRepository : ICareerItemRepository
 		await _dbContext.CareerItems.AddAsync(careerItem);
 		await _dbContext.SaveChangesAsync();
 
-		return careerItem; //await _dbContext.CareerItems.Include(x => x.Author).FirstOrDefaultAsync(x => x.CareerItemId == careerItem.CareerItemId);
+		return careerItem;
 	}
 	public async Task<CareerItem?> UpdateAsync(Guid id, CareerItem careerItem)
 	{

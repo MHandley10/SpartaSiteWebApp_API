@@ -5,8 +5,6 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpartaSiteWebApp_API", "SpartaSiteWebApp_API\SpartaSiteWebApp_API.csproj", "{F2380EA3-9C36-4250-9584-FDEBF3EF61E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpartaSiteWebApp_MVC", "SpartaSiteWebApp_MVC\SpartaSiteWebApp_MVC.csproj", "{346AE92F-C774-4942-BB72-B5DF546E7483}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{F2380EA3-9C36-4250-9584-FDEBF3EF61E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2380EA3-9C36-4250-9584-FDEBF3EF61E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2380EA3-9C36-4250-9584-FDEBF3EF61E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{346AE92F-C774-4942-BB72-B5DF546E7483}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{346AE92F-C774-4942-BB72-B5DF546E7483}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{346AE92F-C774-4942-BB72-B5DF546E7483}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{346AE92F-C774-4942-BB72-B5DF546E7483}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

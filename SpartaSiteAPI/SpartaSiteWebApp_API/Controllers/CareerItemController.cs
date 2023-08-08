@@ -23,9 +23,9 @@ public class CareerItemController : ControllerBase
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetAll()
+	public async Task<IActionResult> GetAll(string? filterOn, string? filterQuery, string? sortBy, bool isAscending)
 	{
-		var careerItems = await _careerItemRepository.GetAllAsync();
+		var careerItems = await _careerItemRepository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending);
 
 		return Ok(_mapper.Map<List<CareerItemDTO>>(careerItems));
 	}
