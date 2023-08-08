@@ -36,9 +36,59 @@ public class CourseRepository : ICourseRepository
 		return deleteItem;
 	}
 
-	public async Task<List<Course>> GetAllAsync()
+	public async Task<List<Course>> GetAllAsync(string? filterOn = null, string? filterQuery = null, string? sortBy = null, bool isAscending = true)
 	{
-		return await _dbContext.Courses.ToListAsync();
+		var courses = _dbContext.Courses.AsQueryable();
+
+		if (string.IsNullOrWhiteSpace(filterOn) is false && string.IsNullOrWhiteSpace(filterQuery) is false)
+		{
+			if (filterOn.Equals("StreamName", StringComparison.OrdinalIgnoreCase))
+			{
+				courses = courses.Where(x => x.StreamName.Contains(filterQuery));
+			}
+			else if (filterOn.Equals("CourseName", StringComparison.OrdinalIgnoreCase))
+			{
+				courses = courses.Where(x => x.CourseName.Contains(filterQuery));
+			}
+			else if (filterOn.Equals("CourseType", StringComparison.OrdinalIgnoreCase))
+			{
+				courses = courses.Where(x => x.CourseType.Contains(filterQuery));
+			}
+			else if (filterOn.Equals("StartDate", StringComparison.OrdinalIgnoreCase))
+			{
+				courses = courses.Where(x => x.StartDate.Equals(DateTime.Parse(filterQuery)));
+			}
+			else if (filterOn.Equals("EndDate", StringComparison.OrdinalIgnoreCase))
+			{
+				courses = courses.Where(x => x.EndDate.Equals(DateTime.Parse(filterQuery)));
+			}
+		}
+
+		if (string.IsNullOrWhiteSpace(sortBy) is false)
+		{
+			if (sortBy.Equals("StreamName", StringComparison.OrdinalIgnoreCase))
+			{
+				courses = isAscending ? courses.OrderBy(x => x.StreamName) : courses.OrderByDescending(x => x.StreamName);
+			}
+			else if (sortBy.Equals("CourseName", StringComparison.OrdinalIgnoreCase))
+			{
+				courses = isAscending ? courses.OrderBy(x => x.CourseName) : courses.OrderByDescending(x => x.CourseName);
+			}
+			else if (sortBy.Equals("CourseType", StringComparison.OrdinalIgnoreCase))
+			{
+				courses = isAscending ? courses.OrderBy(x => x.CourseType) : courses.OrderByDescending(x => x.CourseType);
+			}
+			else if (sortBy.Equals("StartDate", StringComparison.OrdinalIgnoreCase))
+			{
+				courses = isAscending ? courses.OrderBy(x => x.StartDate) : courses.OrderByDescending(x => x.StartDate);
+			}
+			else if (sortBy.Equals("EndDate", StringComparison.OrdinalIgnoreCase))
+			{
+				courses = isAscending ? courses.OrderBy(x => x.EndDate) : courses.OrderByDescending(x => x.EndDate);
+			}
+		}
+
+		return await courses.ToListAsync();
 	}
 
 	public async Task<Course?> GetByIdAsync(Guid id)

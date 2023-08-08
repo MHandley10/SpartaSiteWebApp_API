@@ -23,9 +23,9 @@ public class CourseController : ControllerBase
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetAll()
+	public async Task<IActionResult> GetAll(string? filterOn, string? filterQuery, string? sortBy, bool isAscending)
 	{
-		return Ok(_mapper.Map<List<CourseDTO>>(await _courseRepository.GetAllAsync()));
+		return Ok(_mapper.Map<List<CourseDTO>>(await _courseRepository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending)));
 	}
 
 	[HttpGet]
