@@ -25,7 +25,7 @@ public class EnquiringCompanyController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll(string? filterOn = null, string? filterQuery = null, string? sortBy = null, bool isAscending = true)
 	{
-		return Ok(_mapper.Map<List<EnquiringCompanyDTO>>(await _enquiringCompanyRepository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending));
+		return Ok(_mapper.Map<List<EnquiringCompanyDTO>>(await _enquiringCompanyRepository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending)));
 	}
 
 	[HttpGet]

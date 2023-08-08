@@ -35,9 +35,40 @@ public class NewsItemRepository : INewsItemRepository
 		return existingItem;
 	}
 
-	public async Task<List<NewsItem>> GetAllAsync()
+	public async Task<List<NewsItem>> GetAllAsync(string? filterOn = null, string? filterQuery = null, string? sortBy = null, bool isAscending = true)
 	{
-		return await _dbContext.NewsItems.ToListAsync();
+
+		var newsItems = _dbContext.NewsItems.AsQueryable();
+
+		if (string.IsNullOrWhiteSpace(filterOn) is false && string.IsNullOrWhiteSpace(filterQuery) is false)
+		{
+			if (filterOn.Equals("Author", StringComparison.OrdinalIgnoreCase))
+			{
+				newsItems = newsItems.Where(x => x.Author.Contains(filterQuery));
+			}
+			else if (filterOn.Equals("Title", StringComparison.OrdinalIgnoreCase))
+			{
+				newsItems = newsItems.Where(x => x.Title.Contains(filterQuery));
+			}
+		}
+
+		if (string.IsNullOrWhiteSpace(sortBy) is false)
+		{
+			if (sortBy.Equals("Author", StringComparison.OrdinalIgnoreCase))
+			{
+				newsItems = isAscending ? newsItems.OrderBy(x => x.Author) : newsItems.OrderByDescending(x => x.Author);
+			}
+			else if (sortBy.Equals("RepresentativeName", StringComparison.OrdinalIgnoreCase))
+			{
+				newsItems = isAscending ? newsItems.OrderBy(x => x.Title) : newsItems.OrderByDescending(x => x.Title);
+			}
+			else if (sortBy.Equals("DateUploaded", StringComparison.OrdinalIgnoreCase))
+			{
+				newsItems = isAscending ? newsItems.OrderBy(x => x.DateUploaded) : newsItems.OrderByDescending(x => x.DateUploaded);
+			}
+		}
+
+			return await _dbContext.NewsItems.ToListAsync();
 	}
 
 	public async Task<NewsItem?> GetByIdAsync(Guid id)

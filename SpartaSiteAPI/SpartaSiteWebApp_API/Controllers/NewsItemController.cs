@@ -7,6 +7,7 @@ using SpartaSiteWebApp_API.Models.Domain;
 using SpartaSiteWebApp_API.Models.DTO.EnquiringCopmanyDTOs;
 using SpartaSiteWebApp_API.Models.DTO.NewsItemDTOs;
 using SpartaSiteWebApp_API.Repositories;
+using System.Globalization;
 
 namespace SpartaSiteWebApp_API.Controllers;
 
@@ -23,9 +24,9 @@ public class NewsItemController : ControllerBase
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetAll()
+	public async Task<IActionResult> GetAll(string? filterOn = null, string? filterQuery = null, string? sortBy = null, bool isAscending = true)
 	{
-		return Ok(_mapper.Map<List<NewsItemDTO>>(await _newsItemRepository.GetAllAsync()));
+		return Ok(_mapper.Map<List<NewsItemDTO>>(await _newsItemRepository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending)));
 	}
 
 	[HttpGet]
