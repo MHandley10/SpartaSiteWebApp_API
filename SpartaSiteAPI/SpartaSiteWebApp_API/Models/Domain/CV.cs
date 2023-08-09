@@ -13,4 +13,5 @@ public class CV
 	public string FileExtension { get; set; }
 	public string FilePath { get; set; }
 	public long FileSizeInBytes { get; set; }
+	public Spartan spartan { get; set; }
 }

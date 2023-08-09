@@ -22,10 +22,6 @@ public class CreateUpdateSpartanDTO
 	public string Education { get; set; }
 	public string Experience { get; set; }
 	public string Skills { get; set; }
-	[ForeignKey("CVs")]
-	public Guid? CVId { get; set; } = null;
 	public string PositionName { get; set; }
 	public decimal Salary { get; set; }
-	[ForeignKey("Courses")]
-	public Guid? CourseId { get; set; } = null;
 }

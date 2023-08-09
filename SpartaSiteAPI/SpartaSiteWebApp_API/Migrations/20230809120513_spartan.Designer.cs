@@ -12,8 +12,8 @@ using SpartaSiteWebApp_API.Data;
 namespace SpartaSiteWebApp_API.Migrations
 {
     [DbContext(typeof(SpartaSiteDbContext))]
-    [Migration("20230704121943_removedSpartansFromCourse")]
-    partial class removedSpartansFromCourse
+    [Migration("20230809120513_spartan")]
+    partial class spartan
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,6 +89,10 @@ namespace SpartaSiteWebApp_API.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -140,6 +144,10 @@ namespace SpartaSiteWebApp_API.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -244,7 +252,12 @@ namespace SpartaSiteWebApp_API.Migrations
                     b.Property<long>("FileSizeInBytes")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("spartanId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("CVId");
+
+                    b.HasIndex("spartanId");
 
                     b.ToTable("CVs");
                 });
@@ -255,6 +268,9 @@ namespace SpartaSiteWebApp_API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("CloseDate")
                         .HasColumnType("datetime2");
 
@@ -262,7 +278,7 @@ namespace SpartaSiteWebApp_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsFilled")
+                    b.Property<bool?>("IsFilled")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("PostDate")
@@ -271,7 +287,7 @@ namespace SpartaSiteWebApp_API.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("SpartanId")
+                    b.Property<Guid?>("SpartanId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
@@ -280,7 +296,7 @@ namespace SpartaSiteWebApp_API.Migrations
 
                     b.HasKey("CareerItemId");
 
-                    b.HasIndex("SpartanId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("CareerItems");
                 });
@@ -413,94 +429,6 @@ namespace SpartaSiteWebApp_API.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Spartan", b =>
-                {
-                    b.Property<Guid>("SpartanId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("About")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("CVId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ContactNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CountryOfResidence")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("CourseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateJoined")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Education")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Experience")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MiddleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PositionName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Salary")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Skills")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SpartanId");
-
-                    b.HasIndex("CVId");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("Spartans");
-                });
-
             modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.User", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -621,6 +549,77 @@ namespace SpartaSiteWebApp_API.Migrations
                     b.ToTable("Videos");
                 });
 
+            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Spartan", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("About")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CountryOfResidence")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateJoined")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Education")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Experience")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PositionName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Skills")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasDiscriminator().HasValue("Spartan");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -672,30 +671,22 @@ namespace SpartaSiteWebApp_API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.CV", b =>
+                {
+                    b.HasOne("SpartaSiteWebApp_API.Models.Domain.Spartan", "spartan")
+                        .WithMany()
+                        .HasForeignKey("spartanId");
+
+                    b.Navigation("spartan");
+                });
+
             modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.CareerItem", b =>
                 {
                     b.HasOne("SpartaSiteWebApp_API.Models.Domain.Spartan", "Author")
                         .WithMany()
-                        .HasForeignKey("SpartanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Spartan", b =>
-                {
-                    b.HasOne("SpartaSiteWebApp_API.Models.Domain.CV", "CV")
-                        .WithMany()
-                        .HasForeignKey("CVId");
-
-                    b.HasOne("SpartaSiteWebApp_API.Models.Domain.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId");
-
-                    b.Navigation("CV");
-
-                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.User", b =>
@@ -711,9 +702,21 @@ namespace SpartaSiteWebApp_API.Migrations
                     b.Navigation("CV");
                 });
 
+            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Spartan", b =>
+                {
+                    b.HasOne("SpartaSiteWebApp_API.Models.Domain.Course", null)
+                        .WithMany("spartans")
+                        .HasForeignKey("CourseId");
+                });
+
             modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.CareerItem", b =>
                 {
                     b.Navigation("Applicants");
+                });
+
+            modelBuilder.Entity("SpartaSiteWebApp_API.Models.Domain.Course", b =>
+                {
+                    b.Navigation("spartans");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,11 +11,11 @@ public class SeedData
 	public static void Initialise(IServiceProvider serviceProvider)
 	{
 		var context = serviceProvider.GetRequiredService<SpartaSiteDbContext>();
-		/*var userManagerSpartan = serviceProvider.GetRequiredService<UserManager<Spartan>>();
-		var userManagerUsers = serviceProvider.GetRequiredService<UserManager<User>>();*/
-		/*var roleStore = new RoleStore<IdentityRole>(context);*/
+		var userManagerSpartan = serviceProvider.GetRequiredService<UserManager<Spartan>>();
+/*		var userManagerUsers = serviceProvider.GetRequiredService<UserManager<User>>();*/
+		var roleStore = new RoleStore<IdentityRole>(context);
 
-		if (context.CareerItems.Any() || context.Courses.Any() || context.CVs.Any() || context.EnquiringCompanies.Any() || context.NewsItems.Any() || context.Questions.Any() || context.Spartans.Any() || context.Users.Any() || context.Videos.Any())
+		if (context.CareerItems.Any() || context.Courses.Any() || context.CVs.Any() || context.EnquiringCompanies.Any() || context.NewsItems.Any() || context.Questions.Any() || context.Spartans.Any() || context.Users.Any() || context.Videos.Any() || context.UserRoles.Any() || context.Roles.Any())
 		{
 			context.CareerItems.RemoveRange(context.CareerItems);
 			context.Courses.RemoveRange(context.Courses);
@@ -26,10 +26,13 @@ public class SeedData
 			context.Spartans.RemoveRange(context.Spartans);
 			context.Users.RemoveRange(context.Users);
 			context.Videos.RemoveRange(context.Videos);
+			context.Users.RemoveRange(context.Users);
+			context.UserRoles.RemoveRange(context.UserRoles);
+			context.Roles.RemoveRange(context.Roles);
 			context.SaveChanges();
 		}
 
-		/*var trainer = new IdentityRole
+		var trainer = new IdentityRole
 		{
 			Name = "Trainer",
 			NormalizedName = "TRAINER"
@@ -37,7 +40,7 @@ public class SeedData
 		var trainee = new IdentityRole
 		{
 			Name = "Trainee",
-			NormalizedName = "TRAINER"
+			NormalizedName = "TRAINEE"
 		};
 		var user = new IdentityRole
 		{
@@ -56,64 +59,10 @@ public class SeedData
 		roleStore
 			.CreateAsync(user)
 			.GetAwaiter()
-			.GetResult()*/;
-
-		var danyalCV = new CV
-		{
-			CVId = Guid.NewGuid(),
-			FileName = "Danyals CV",
-			FileExtension = ".pdf",
-			FilePath = "./CVs",
-			FileSizeInBytes = 50_000
-		};
-
-		var daveCV = new CV
-		{
-			CVId = Guid.NewGuid(),
-			FileName = "Daves CV",
-			FileExtension = ".pdf",
-			FilePath = "./CVs",
-			FileSizeInBytes = 49_000
-		};
-
-		var nooreenCV = new CV
-		{
-			CVId = Guid.NewGuid(),
-			FileName = "Nooreens CV",
-			FileExtension = ".pdf",
-			FilePath = "./CVs",
-			FileSizeInBytes = 51_000
-		};
-
-		var jacobCV = new CV
-		{
-			CVId = Guid.NewGuid(),
-			FileName = "Jacobs CV",
-			FileExtension = ".pdf",
-			FilePath = "./CVs",
-			FileSizeInBytes = 52_000
-		};
-
-		var tech211 = new Course
-		{
-			CourseId = Guid.NewGuid(),
-			StreamName = "Developer",
-			CourseName = "Tech211",
-			CourseType = "C# Developer",
-			StartDate = new DateTime(2023, 03, 20)
-		};
-		var tech212 = new Course
-		{
-			CourseId = Guid.NewGuid(),
-			StreamName = "Developer",
-			CourseName = "Tech211",
-			CourseType = "Java Developer",
-			StartDate = new DateTime(2023, 04, 13)
-		};
+			.GetResult();
 
 		var danyalSpartan = new Spartan
 		{
-			SpartanId = Guid.NewGuid(),
 			FirstName = "Danyal",
 			LastName = "Saleh",
 			DateOfBirth = new DateTime(1999, 1, 1),
@@ -121,25 +70,22 @@ public class SeedData
 			Address = "101 Memory Lane, Hereford",
 			PostCode = "HF12 3OP",
 			CountryOfResidence = "United Kingdom",
-			ContactNumber = "070000000000",
+			PhoneNumber = "070000000000",
+			UserName = "DSaleh@hotmail.com",
 			Email = "DSaleh@hotmail.com",
+			EmailConfirmed = true,
 			About = "Hi! I'm Danyal with a Y!",
 			Education = "Uni versity, University town",
 			Experience = "Many years as an excellent C# Developer",
 			Skills = "C#, Python, Java",
-			CVId = nooreenCV.CVId,
-			CV = danyalCV,
 			PositionName = "Spartan",
 			Salary = (decimal)19_000.00,
-			CourseId = tech211.CourseId,
-			Course = tech211,
 			Role = "Trainee"
 			
 		};
 
 		var nooreenSpartan = new Spartan
 		{
-			SpartanId = Guid.NewGuid(),
 			FirstName = "Nooreen",
 			LastName = "Ali",
 			DateOfBirth = new DateTime(1999, 3, 14),
@@ -147,14 +93,14 @@ public class SeedData
 			Address = "88 Victoria way, Stoke-On-Trent",
 			PostCode = "ST8 9NW",
 			CountryOfResidence = "United Kingdom",
-			ContactNumber = "070000000001",
+			PhoneNumber = "070000000001",
+			UserName = "NAli@hotmail.com",
 			Email = "NAli@hotmail.com",
+			EmailConfirmed = true,
 			About = "My name is Nooreen, I enjoy pizza and biking.",
 			Education = "Oxford Brooks, Oxford",
 			Experience = "Very experience mechanical engineer",
 			Skills = "C#, CAD, Solidworks",
-			CVId = nooreenCV.CVId,
-			CV = nooreenCV,
 			PositionName = "Talent Team Spartan",
 			Salary = (decimal)19_000.00,
 			Role = "Trainer"
@@ -162,7 +108,6 @@ public class SeedData
 
 		var jacobSpartan = new Spartan
 		{
-			SpartanId = Guid.NewGuid(),
 			FirstName = "Jacob",
 			LastName = "Banyard",
 			DateOfBirth = new DateTime(1997, 3, 14),
@@ -170,18 +115,16 @@ public class SeedData
 			Address = "15 Haggis avenue, Glasgow",
 			PostCode = "G15 5NM",
 			CountryOfResidence = "United Kingdom",
-			ContactNumber = "070000000002",
+			PhoneNumber = "070000000002",
+			UserName = "JBanyard@hotmail.com",
 			Email = "JBanyard@hotmail.com",
+			EmailConfirmed = true,
 			About = "I love climbing rocks and solving complex maths problems.",
 			Education = "Essex University, Essex",
 			Experience = "Lots of teaching experience in Maths, ready to take my career to the next level!",
 			Skills = "C#, Python, MATLAB",
-			CVId = jacobCV.CVId,
-			CV = jacobCV,
 			PositionName = "Trainer Spartan",
 			Salary = (decimal)19_000.00,
-			CourseId = tech211.CourseId,
-			Course = tech211,
 			Role = "Trainee"
 		};
 
@@ -201,8 +144,6 @@ public class SeedData
 			Education = "Uni versity, University town",
 			Experience = "Many years as an excellent C# Developer",
 			Skills = "C#, Python, Java",
-			CVId = nooreenCV.CVId,
-			CV = danyalCV,
 			Role = "User"
 		};
 		var nooreen = new User
@@ -221,8 +162,6 @@ public class SeedData
 			Education = "Oxford Brooks, Oxford",
 			Experience = "Very experience mechanical engineer",
 			Skills = "C#, CAD, Solidworks",
-			CVId = nooreenCV.CVId,
-			CV = nooreenCV,
 			Role = "User"
 		};
 		var jacob = new User
@@ -241,8 +180,6 @@ public class SeedData
 			Education = "Essex University, Essex",
 			Experience = "Lots of teaching experience in Maths, ready to take my career to the next level!",
 			Skills = "C#, Python, MATLAB",
-			CVId = jacobCV.CVId,
-			CV = jacobCV,
 			Role = "User"
 		};
 		var dave = new User
@@ -261,12 +198,68 @@ public class SeedData
 			Education = "University of life",
 			Experience = "15 years as a self-employed plumber",
 			Skills = "I can fit a mean U-bend",
-			CVId = daveCV.CVId,
-			CV = daveCV,
 			Role = "User"
 		};
 
-		/*userManagerSpartan
+		var danyalCV = new CV
+		{
+			CVId = Guid.NewGuid(),
+			FileName = "Danyals CV",
+			FileExtension = ".pdf",
+			FilePath = "./CVs",
+			FileSizeInBytes = 50_000,
+			spartan = danyalSpartan
+		};
+
+		var daveCV = new CV
+		{
+			CVId = Guid.NewGuid(),
+			FileName = "Daves CV",
+			FileExtension = ".pdf",
+			FilePath = "./CVs",
+			FileSizeInBytes = 49_000
+		};
+
+		var nooreenCV = new CV
+		{
+			CVId = Guid.NewGuid(),
+			FileName = "Nooreens CV",
+			FileExtension = ".pdf",
+			FilePath = "./CVs",
+			FileSizeInBytes = 51_000,
+			spartan = nooreenSpartan
+		};
+
+		var jacobCV = new CV
+		{
+			CVId = Guid.NewGuid(),
+			FileName = "Jacobs CV",
+			FileExtension = ".pdf",
+			FilePath = "./CVs",
+			FileSizeInBytes = 52_000,
+			spartan = danyalSpartan
+		};
+
+		var tech211 = new Course
+		{
+			CourseId = Guid.NewGuid(),
+			StreamName = "Developer",
+			CourseName = "Tech211",
+			CourseType = "C# Developer",
+			StartDate = new DateTime(2023, 03, 20),
+			spartans = new List<Spartan> {nooreenSpartan}
+		};
+		var tech212 = new Course
+		{
+			CourseId = Guid.NewGuid(),
+			StreamName = "Developer",
+			CourseName = "Tech211",
+			CourseType = "Java Developer",
+			StartDate = new DateTime(2023, 04, 13),
+			spartans = new List<Spartan> {danyalSpartan}
+		};
+
+		userManagerSpartan
 				.CreateAsync(danyalSpartan, "Password1!")
 				.GetAwaiter()
 				.GetResult();
@@ -278,7 +271,7 @@ public class SeedData
 				.CreateAsync(jacobSpartan, "Password1!")
 				.GetAwaiter()
 				.GetResult();
-		userManagerUsers
+		/*userManagerUsers
 				.CreateAsync(danyal, "Password1!")
 				.GetAwaiter()
 				.GetResult();
@@ -304,7 +297,6 @@ public class SeedData
 			PostDate = new DateTime(2023, 5, 15),
 			CloseDate = new DateTime(2023, 7, 15),
 			IsFilled = false,
-			SpartanId = nooreenSpartan.SpartanId,
 			Author = nooreenSpartan
 		};
 		var career2 = new CareerItem
@@ -316,7 +308,6 @@ public class SeedData
 			PostDate = new DateTime(2023, 6, 15),
 			CloseDate = new DateTime(2023, 8, 15),
 			IsFilled = false,
-			SpartanId = nooreenSpartan.SpartanId,
 			Author = nooreenSpartan
 		};
 		var career3 = new CareerItem
@@ -328,7 +319,6 @@ public class SeedData
 			PostDate = new DateTime(2023, 6, 28),
 			CloseDate = new DateTime(2023, 9, 01),
 			IsFilled = false,
-			SpartanId = nooreenSpartan.SpartanId,
 			Author = nooreenSpartan
 		};
 		var company1 = new EnquiringCompany
@@ -419,18 +409,13 @@ public class SeedData
 
 		context.CVs.AddRange(
 			danyalCV,
-			daveCV,
+/*			daveCV,*/
 			jacobCV,
 			nooreenCV
 			);
 		context.Courses.AddRange(
 			tech211,
 			tech212
-			);
-		context.Spartans.AddRange(
-			danyalSpartan,
-			jacobSpartan,
-			nooreenSpartan
 			);
 		context.Users.AddRange(
 			danyal,
@@ -461,7 +446,9 @@ public class SeedData
 		context.Videos.AddRange(
 
 			);
-		/*context.UserRoles.AddRange(new IdentityUserRole<string>[]
+
+
+		context.UserRoles.AddRange(new IdentityUserRole<string>[]
 		{
 			new IdentityUserRole<string>
 				{
@@ -476,9 +463,9 @@ public class SeedData
 			new IdentityUserRole<string>
 				{
 					UserId = userManagerSpartan.GetUserIdAsync(jacobSpartan).Result,
-					RoleId = roleStore.GetRoleIdAsync(trainer).Result
-				},
-			new IdentityUserRole<string>
+					RoleId = roleStore.GetRoleIdAsync(trainee).Result
+				}
+			/*new IdentityUserRole<string>
 				{
 					UserId = userManagerUsers.GetUserIdAsync(danyal).Result,
 					RoleId = roleStore.GetRoleIdAsync(user).Result
@@ -497,8 +484,8 @@ public class SeedData
 				{
 					UserId = userManagerUsers.GetUserIdAsync(dave).Result,
 					RoleId = roleStore.GetRoleIdAsync(user).Result
-				}
-		});*/
+				}*/
+		});
 		context.SaveChanges();
 	}
 }

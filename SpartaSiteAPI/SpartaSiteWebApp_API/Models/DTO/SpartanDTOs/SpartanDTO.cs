@@ -17,6 +17,4 @@ public class SpartanDTO
 	public string Experience { get; set; }
 	public string Skills { get; set; }
 	public string PositionName { get; set; }
-	public CV? CV { get; set; }
-	public CourseDTO? Course { get; set; }
 }

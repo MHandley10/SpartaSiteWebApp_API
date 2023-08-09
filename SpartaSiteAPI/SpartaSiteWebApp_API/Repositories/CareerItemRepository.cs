@@ -15,7 +15,7 @@ public class CareerItemRepository : ICareerItemRepository
 	}
 	public async Task<List<CareerItem>> GetAllAsync(string? filterOn = null, string? filterQuery = null, string? sortBy = null, bool isAscending = true)
 	{
-		var careerItems = _dbContext.CareerItems.Include(x => x.Author).ThenInclude(x => x.Course).AsQueryable();
+		var careerItems = _dbContext.CareerItems.Include(x => x.Author).AsQueryable();
 
 		if (string.IsNullOrWhiteSpace(filterOn) is false && string.IsNullOrWhiteSpace(filterQuery) is false)
 		{
@@ -61,12 +61,12 @@ public class CareerItemRepository : ICareerItemRepository
 	}
 	public async Task<CareerItem?> GetByIdAsync(Guid id)
 	{
-		return await _dbContext.CareerItems.Include(x => x.Author).ThenInclude(x => x.Course).FirstOrDefaultAsync(x => x.CareerItemId == id);
+		return await _dbContext.CareerItems.Include(x => x.Author).FirstOrDefaultAsync(x => x.CareerItemId == id);
 	}
 	public async Task<CareerItem> CreateAsync(CareerItem careerItem)
 	{
 		careerItem.PostDate = DateTime.Now;
-		careerItem.Author = await _dbContext.Spartans.FirstOrDefaultAsync(x => x.SpartanId == careerItem.SpartanId);
+		careerItem.Author = await _dbContext.Spartans.FirstOrDefaultAsync(x => x.Id == careerItem.Author.Id);
 		await _dbContext.CareerItems.AddAsync(careerItem);
 		await _dbContext.SaveChangesAsync();
 

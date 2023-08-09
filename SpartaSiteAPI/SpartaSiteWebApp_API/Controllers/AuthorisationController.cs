@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SpartaSiteWebApp_API.Models.Domain;
 using SpartaSiteWebApp_API.Models.DTO.AuthorisationDTOs;
 using SpartaSiteWebApp_API.Repositories;
 
@@ -10,9 +11,9 @@ namespace SpartaSiteWebApp_API.Controllers
 	[ApiController]
 	public class AuthorisationController : ControllerBase
 	{
-		private readonly UserManager<IdentityUser> userManager;
+		private readonly UserManager<Spartan> userManager;
 		private readonly ITokenRepository tokenRepository;
-		public AuthorisationController(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository)
+		public AuthorisationController(UserManager<Spartan> userManager, ITokenRepository tokenRepository)
 		{
 			this.userManager = userManager;
 			this.tokenRepository = tokenRepository;
@@ -22,7 +23,7 @@ namespace SpartaSiteWebApp_API.Controllers
 		[Route("Register")]
 		public async Task<IActionResult> Register([FromBody] RegisterRequestDTO registerRequestDTO)
 		{
-			var identityUser = new IdentityUser
+			var identityUser = new Spartan
 			{
 				UserName = registerRequestDTO.Username,
 				Email = registerRequestDTO.Username

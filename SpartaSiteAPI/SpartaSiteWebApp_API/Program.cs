@@ -72,9 +72,9 @@ namespace SpartaSiteWebApp_API
 
 			builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
-			builder.Services.AddIdentityCore<IdentityUser>()
+			builder.Services.AddIdentityCore<Spartan>()
 			.AddRoles<IdentityRole>()
-			.AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("NZWalks")
+			.AddTokenProvider<DataProtectorTokenProvider<Spartan>>("SpartaSiteAPI")
 			.AddEntityFrameworkStores<SpartaSiteDbContext>()
 			.AddDefaultTokenProviders();
 

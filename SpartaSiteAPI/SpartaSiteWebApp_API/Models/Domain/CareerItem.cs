@@ -16,5 +16,6 @@ public class CareerItem
 	public ICollection<User>? Applicants { get; set; }
 	[ForeignKey("Spartans")]
 	public Guid? SpartanId { get; set; }
+
 	public Spartan? Author { get; set; }
 }
