@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ public class SpartanController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Roles = "Trainee")]
 	public async Task<IActionResult> GetAll()
 	{
 		return Ok(_mapper.Map<List<SpartanDTO>>(await _spartanRepository.GetAllAsync()));
