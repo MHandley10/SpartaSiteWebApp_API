@@ -68,7 +68,7 @@ public class NewsItemRepository : INewsItemRepository
 			}
 		}
 
-			return await _dbContext.NewsItems.ToListAsync();
+			return await newsItems.ToListAsync();
 	}
 
 	public async Task<NewsItem?> GetByIdAsync(Guid id)
